@@ -420,6 +420,11 @@
       <div class="section-label" style="margin-bottom:4px">Practice — native usage quiz</div>
       <div id="quizBox"></div>
     </div>
+
+    <div class="quiz-wrap">
+      <div class="section-label" style="margin-bottom:4px">Practice — synonym duel (precise word choice)</div>
+      <div id="synQuizBox"></div>
+    </div>
   </section>
 
   <!-- WRITE -->
@@ -565,7 +570,7 @@
 
 <script>
 /* ============================ DATA: A1 German vocabulary ============================ */
-const LEVELS = ['Words','Idioms','Phrasal','Collocations'];
+const LEVELS = ['Words','Idioms','Phrasal','Collocations','Politics','Science','Everyday'];
 const WORDS = [
   {"de": "meticulous", "art": "", "en": "showing great attention to detail; very careful and precise", "type": "word", "ex": "Her meticulous record-keeping made the audit remarkably straightforward.", "exEn": "꼼꼼한 · positive connotation; common in professional contexts", "level": "Words"},
   {"de": "candid", "art": "", "en": "truthful and straightforward; frank", "type": "word", "ex": "In a rare moment of candid reflection, the CEO admitted the strategy had failed.", "exEn": "솔직한 · slightly formal; implies honesty even when uncomfortable", "level": "Words"},
@@ -768,6 +773,119 @@ const WORDS = [
   {"de": "run counter to", "art": "", "en": "to be the opposite of or conflict with something", "type": "collocation", "ex": "The results run counter to conventional theory.", "exEn": "~와 배치되다 · formal/academic", "level": "Collocations"},
   {"de": "a pressing concern", "art": "", "en": "an urgent problem needing attention", "type": "collocation", "ex": "Youth unemployment remains a pressing concern.", "exEn": "시급한 문제 · formal", "level": "Collocations"},
   {"de": "the bigger picture", "art": "", "en": "the overall situation rather than small details", "type": "collocation", "ex": "Focusing on monthly data can make us lose sight of the bigger picture.", "exEn": "큰 그림 · neutral; common", "level": "Collocations"},
+  {"de": "bipartisan", "art": "", "en": "supported by two political parties that usually oppose each other", "type": "word", "ex": "The bill passed with rare bipartisan support.", "exEn": "초당적인 · common in news; positive connotation", "level": "Politics"},
+  {"de": "incumbent", "art": "", "en": "the current holder of a political office, especially when seeking re-election", "type": "word", "ex": "The incumbent faces a strong challenge from a younger rival.", "exEn": "현직자 · neutral; standard in election coverage", "level": "Politics"},
+  {"de": "constituency", "art": "", "en": "the body of voters in an area who elect a representative, or that area itself", "type": "word", "ex": "She returned to her constituency to meet with local voters.", "exEn": "선거구; 지지층 · chiefly British usage; formal", "level": "Politics"},
+  {"de": "referendum", "art": "", "en": "a direct vote by the electorate on a single political question", "type": "word", "ex": "The government called a referendum on EU membership.", "exEn": "국민투표 · plural 'referenda' or 'referendums'; formal", "level": "Politics"},
+  {"de": "gerrymander", "art": "", "en": "to manipulate electoral district boundaries to favor one party", "type": "word", "ex": "Critics accused the legislature of gerrymandering the new map.", "exEn": "게리맨더링하다 · pejorative; chiefly US politics", "level": "Politics"},
+  {"de": "filibuster", "art": "", "en": "prolonged speech or obstruction tactics used to delay or block legislation", "type": "word", "ex": "Senators threatened to filibuster the controversial nomination.", "exEn": "필리버스터 · noun and verb; US legislative context", "level": "Politics"},
+  {"de": "sanctions", "art": "", "en": "penalties, often economic, imposed on a state to compel a change in behavior", "type": "word", "ex": "The coalition imposed sweeping sanctions on the regime.", "exEn": "제재 · usually plural in this sense; diplomacy/news", "level": "Politics"},
+  {"de": "coalition", "art": "", "en": "an alliance of parties or groups formed to govern or pursue a common aim", "type": "word", "ex": "The two parties formed a coalition to secure a majority.", "exEn": "연정; 연합 · common in parliamentary systems", "level": "Politics"},
+  {"de": "populism", "art": "", "en": "a political approach appealing to ordinary people against established elites", "type": "word", "ex": "The rise of populism reshaped the country's party system.", "exEn": "포퓰리즘 · often pejorative; opinion writing", "level": "Politics"},
+  {"de": "mandate", "art": "", "en": "the authority to govern granted by voters through an election win", "type": "word", "ex": "The landslide gave the new president a clear mandate for reform.", "exEn": "국민의 위임; 권한 · formal; also means a formal order", "level": "Politics"},
+  {"de": "lobby", "art": "", "en": "to seek to influence legislators on behalf of a particular interest", "type": "word", "ex": "Industry groups lobbied hard against the new tax.", "exEn": "로비하다 · verb and noun; neutral-to-negative", "level": "Politics"},
+  {"de": "ratify", "art": "", "en": "to give formal consent to a treaty or agreement, making it official", "type": "word", "ex": "The senate voted to ratify the trade treaty.", "exEn": "비준하다 · formal; diplomacy and law-making", "level": "Politics"},
+  {"de": "sovereignty", "art": "", "en": "the full right and power of a state to govern itself without interference", "type": "word", "ex": "The dispute touched on questions of national sovereignty.", "exEn": "주권 · formal; political theory and diplomacy", "level": "Politics"},
+  {"de": "dissent", "art": "", "en": "the expression of opinions at odds with those officially held", "type": "word", "ex": "The regime cracked down harshly on political dissent.", "exEn": "반대 의견; 이의 · formal; also a verb", "level": "Politics"},
+  {"de": "austerity", "art": "", "en": "strict economic policy of reduced public spending to cut deficits", "type": "word", "ex": "Voters punished the party for years of harsh austerity.", "exEn": "긴축 · often 'austerity measures'; economic-political", "level": "Politics"},
+  {"de": "partisan", "art": "", "en": "strongly biased in favor of a particular party or cause", "type": "word", "ex": "The debate descended into bitter partisan bickering.", "exEn": "당파적인 · often pejorative; opposite of bipartisan", "level": "Politics"},
+  {"de": "electorate", "art": "", "en": "all the people in a country or area entitled to vote", "type": "word", "ex": "The electorate delivered a stinging rebuke to the government.", "exEn": "유권자(전체) · collective noun; formal", "level": "Politics"},
+  {"de": "statesmanship", "art": "", "en": "skill and wisdom in managing public affairs and leading a state", "type": "word", "ex": "The crisis called for genuine statesmanship, not point-scoring.", "exEn": "정치적 역량; 경륜 · approving; somewhat formal/literary", "level": "Politics"},
+  {"de": "demagogue", "art": "", "en": "a leader who wins support by exploiting prejudice and emotion rather than reason", "type": "word", "ex": "He was dismissed by opponents as a dangerous demagogue.", "exEn": "선동가 · strongly pejorative; formal", "level": "Politics"},
+  {"de": "incendiary", "art": "", "en": "tending to provoke conflict, anger, or unrest", "type": "word", "ex": "Her incendiary remarks sparked days of protest.", "exEn": "선동적인 · figurative use; opinion/news writing", "level": "Politics"},
+  {"de": "caucus", "art": "", "en": "a meeting of party members to choose candidates or decide policy", "type": "word", "ex": "He won the Iowa caucus by a narrow margin.", "exEn": "당원 집회; 코커스 · chiefly US; also a party group in a legislature", "level": "Politics"},
+  {"de": "plebiscite", "art": "", "en": "a direct popular vote on an important national issue", "type": "word", "ex": "The dictator staged a plebiscite to legitimize his rule.", "exEn": "국민투표; 신임투표 · formal; near-synonym of referendum", "level": "Politics"},
+  {"de": "suffrage", "art": "", "en": "the right to vote in political elections", "type": "word", "ex": "The movement fought for universal adult suffrage.", "exEn": "참정권; 선거권 · formal; historical and civic contexts", "level": "Politics"},
+  {"de": "detente", "art": "", "en": "an easing of strained relations between states", "type": "word", "ex": "The summit marked a cautious detente between the rivals.", "exEn": "긴장 완화; 데탕트 · from French; diplomacy; often without accent", "level": "Politics"},
+  {"de": "hegemony", "art": "", "en": "dominance of one state or group over others", "type": "word", "ex": "The treaty challenged the region's longstanding hegemony.", "exEn": "패권 · formal; international relations theory", "level": "Politics"},
+  {"de": "realpolitik", "art": "", "en": "politics based on practical power and circumstances rather than ideals", "type": "word", "ex": "His foreign policy was driven by cold realpolitik.", "exEn": "현실정치 · from German; analytical, often neutral", "level": "Politics"},
+  {"de": "unilateral", "art": "", "en": "done by one state or party alone, without the agreement of others", "type": "word", "ex": "The unilateral withdrawal angered allies.", "exEn": "일방적인 · formal; contrast with 'multilateral'", "level": "Politics"},
+  {"de": "incumbency", "art": "", "en": "the period of holding an office, or the advantage of being the current holder", "type": "word", "ex": "The power of incumbency makes sitting members hard to unseat.", "exEn": "재임; 현직 프리미엄 · formal; political science", "level": "Politics"},
+  {"de": "landslide", "art": "", "en": "an overwhelming victory in an election", "type": "word", "ex": "The opposition swept to power in a landslide.", "exEn": "압승 · common in news; often 'landslide victory'", "level": "Politics"},
+  {"de": "swing voter", "art": "", "en": "a voter who is not loyal to one party and may decide an election", "type": "collocation", "ex": "Campaigns spend heavily to court swing voters.", "exEn": "부동층 유권자 · common collocation; election analysis", "level": "Politics"},
+  {"de": "vote of no confidence", "art": "", "en": "a parliamentary motion expressing that a government no longer has support", "type": "phrase", "ex": "The prime minister resigned after losing a vote of no confidence.", "exEn": "불신임 투표 · fixed phrase; parliamentary systems", "level": "Politics"},
+  {"de": "lame duck", "art": "", "en": "an official whose term is ending and who holds diminished influence", "type": "phrase", "ex": "As a lame-duck president, he struggled to pass legislation.", "exEn": "레임덕; 임기말 권력누수 · informal-to-neutral; hyphenated as modifier", "level": "Politics"},
+  {"de": "cross the aisle", "art": "", "en": "to vote with or cooperate with the opposing party", "type": "phrase", "ex": "A handful of senators crossed the aisle to back the bill.", "exEn": "당론과 달리 상대 당에 동조하다 · idiom; chiefly US legislative context", "level": "Politics"},
+  {"de": "toe the party line", "art": "", "en": "to publicly support the official position of one's party", "type": "phrase", "ex": "Backbenchers were pressured to toe the party line.", "exEn": "당론을 따르다 · idiom; often slightly critical", "level": "Politics"},
+  {"de": "horse-trading", "art": "", "en": "hard, shrewd bargaining and mutual concessions in negotiations", "type": "word", "ex": "The budget emerged after weeks of political horse-trading.", "exEn": "정치적 흥정 · informal; often mildly disapproving", "level": "Politics"},
+  {"de": "grassroots", "art": "", "en": "relating to ordinary people at the local level rather than the leadership", "type": "word", "ex": "The campaign was built on grassroots activism.", "exEn": "풀뿌리(민중) · usually attributive; positive connotation", "level": "Politics"},
+  {"de": "realignment", "art": "", "en": "a lasting shift in the patterns of party support among voters", "type": "word", "ex": "Analysts saw the election as a generational realignment.", "exEn": "(정치 지형) 재편 · formal; political science term", "level": "Politics"},
+  {"de": "entrenched", "art": "", "en": "firmly established and very difficult to change, of power or positions", "type": "word", "ex": "Reformers struggled against entrenched interests.", "exEn": "굳어진; 기득권화된 · often negative; common in policy debate", "level": "Politics"},
+  {"de": "brinkmanship", "art": "", "en": "pursuing a dangerous policy to the edge of catastrophe to gain advantage", "type": "word", "ex": "The standoff was a reckless display of nuclear brinkmanship.", "exEn": "벼랑끝 전술 · formal; diplomacy and negotiation", "level": "Politics"},
+  {"de": "co-opt", "art": "", "en": "to absorb or win over an opposing group to neutralize it", "type": "word", "ex": "The ruling party tried to co-opt the protest movement.", "exEn": "포섭하다; 흡수하다 · formal; often implies cynical motive", "level": "Politics"},
+  {"de": "empirical", "art": "", "en": "based on observation or experiment rather than theory", "type": "word", "ex": "There is little empirical evidence to support the claim.", "exEn": "경험적인 · formal/academic; pairs with evidence, data, study", "level": "Science"},
+  {"de": "hypothesis", "art": "", "en": "a proposed explanation made on limited evidence as a starting point for investigation", "type": "word", "ex": "The researchers set out to test their central hypothesis.", "exEn": "가설 · plural 'hypotheses'; pairs with test, formulate, support, reject", "level": "Science"},
+  {"de": "replicate", "art": "", "en": "to repeat a study or experiment to confirm its results", "type": "word", "ex": "Other labs failed to replicate the original findings.", "exEn": "재현하다 · core to research integrity; noun form 'replication'", "level": "Science"},
+  {"de": "robust", "art": "", "en": "(of findings or methods) strong and reliable across different conditions", "type": "word", "ex": "The effect proved robust across multiple samples.", "exEn": "견고한, 안정적인 · academic collocation: robust findings/evidence/results", "level": "Science"},
+  {"de": "statistically significant", "art": "", "en": "unlikely to have occurred by chance according to a statistical test", "type": "collocation", "ex": "The difference between the two groups was statistically significant.", "exEn": "통계적으로 유의한 · often abbreviated to 'significant'; tied to p-values", "level": "Science"},
+  {"de": "correlation", "art": "", "en": "a mutual relationship or association between two variables", "type": "word", "ex": "They found a strong positive correlation between the two measures.", "exEn": "상관관계 · contrast with causation; pairs with strong, weak, positive, negative", "level": "Science"},
+  {"de": "causation", "art": "", "en": "the relationship in which one event directly produces another", "type": "word", "ex": "Correlation does not necessarily imply causation.", "exEn": "인과관계 · formal; central to causal inference debates", "level": "Science"},
+  {"de": "confounding variable", "art": "", "en": "an extraneous factor that distorts the apparent relationship between variables", "type": "collocation", "ex": "The study controlled for several confounding variables.", "exEn": "교란 변수 · also 'confounder'; key methodological term", "level": "Science"},
+  {"de": "control for variables", "art": "", "en": "to statistically hold other factors constant to isolate an effect", "type": "collocation", "ex": "After controlling for age and income, the effect persisted.", "exEn": "변수를 통제하다 · standard methods phrasing; 'control for X'", "level": "Science"},
+  {"de": "peer review", "art": "", "en": "evaluation of scholarly work by experts in the same field before publication", "type": "collocation", "ex": "The paper is currently undergoing peer review.", "exEn": "동료 평가 · can be noun or verb (peer-reviewed); academic gatekeeping", "level": "Science"},
+  {"de": "methodology", "art": "", "en": "the system of methods and principles used in a particular study", "type": "word", "ex": "Critics questioned the methodology behind the survey.", "exEn": "방법론 · formal; broader than 'method'; pairs with sound, flawed, rigorous", "level": "Science"},
+  {"de": "quantitative", "art": "", "en": "relating to measurement and numerical data", "type": "word", "ex": "They adopted a quantitative approach to the problem.", "exEn": "정량적인 · contrast with 'qualitative'; pairs with analysis, data, method", "level": "Science"},
+  {"de": "qualitative", "art": "", "en": "relating to qualities and descriptive, non-numerical data", "type": "word", "ex": "Qualitative interviews revealed unexpected themes.", "exEn": "정성적인 · contrast with 'quantitative'; common in social sciences", "level": "Science"},
+  {"de": "variable", "art": "", "en": "a factor or quantity that can change or be measured in a study", "type": "word", "ex": "The dependent variable was reaction time.", "exEn": "변수 · independent/dependent/control variable distinctions", "level": "Science"},
+  {"de": "draw a conclusion", "art": "", "en": "to reach a reasoned judgment based on evidence", "type": "collocation", "ex": "It would be premature to draw any firm conclusions from one trial.", "exEn": "결론을 도출하다 · academic collocation; often 'draw firm/tentative conclusions'", "level": "Science"},
+  {"de": "plausible", "art": "", "en": "seeming reasonable or probable, though not proven", "type": "word", "ex": "The data offer a plausible explanation for the anomaly.", "exEn": "그럴듯한, 타당한 · formal; pairs with explanation, mechanism, hypothesis", "level": "Science"},
+  {"de": "anomaly", "art": "", "en": "something that deviates from what is standard or expected", "type": "word", "ex": "The reading was dismissed as a measurement anomaly.", "exEn": "변칙, 이상치 · formal; adjective 'anomalous'", "level": "Science"},
+  {"de": "calibrate", "art": "", "en": "to adjust an instrument or model against a known standard", "type": "word", "ex": "The sensors must be calibrated before each run.", "exEn": "보정하다, 교정하다 · technical; noun 'calibration'", "level": "Science"},
+  {"de": "synthesize", "art": "", "en": "to combine separate findings or ideas into a coherent whole", "type": "word", "ex": "The review synthesizes evidence from over fifty studies.", "exEn": "종합하다 · formal; also 'synthesis' (n.), distinct from chemical synthesis", "level": "Science"},
+  {"de": "paradigm", "art": "", "en": "a typical pattern or framework of thought within a discipline", "type": "word", "ex": "The discovery triggered a shift in the dominant paradigm.", "exEn": "패러다임 · academic; famous phrase 'paradigm shift' (Kuhn)", "level": "Science"},
+  {"de": "emergent", "art": "", "en": "arising as a complex property from simpler interacting parts", "type": "word", "ex": "Consciousness may be an emergent property of neural activity.", "exEn": "창발적인 · common in complexity science; 'emergent property/behavior'", "level": "Science"},
+  {"de": "catalyst", "art": "", "en": "a substance that speeds up a reaction without being consumed; or a trigger for change", "type": "word", "ex": "The enzyme acts as a catalyst in the reaction.", "exEn": "촉매 · chemistry term with metaphorical extension; verb 'catalyze'", "level": "Science"},
+  {"de": "threshold", "art": "", "en": "the level or point at which an effect begins to occur", "type": "word", "ex": "The signal must exceed a certain threshold to be detected.", "exEn": "임계점, 문턱값 · pairs with exceed, reach, set; common in stats and physics", "level": "Science"},
+  {"de": "placebo", "art": "", "en": "an inactive substance given as a control in a trial", "type": "word", "ex": "Participants in the placebo group reported similar improvements.", "exEn": "위약 · medical research; 'placebo effect', 'placebo-controlled'", "level": "Science"},
+  {"de": "baseline", "art": "", "en": "an initial measurement used as a reference for comparison", "type": "word", "ex": "Measurements were taken against a pre-treatment baseline.", "exEn": "기준선, 기저치 · pairs with establish, return to; common across sciences", "level": "Science"},
+  {"de": "reproducibility", "art": "", "en": "the degree to which results can be obtained again by others", "type": "word", "ex": "The field is grappling with a reproducibility crisis.", "exEn": "재현성 · distinct nuance from replicability; current hot topic", "level": "Science"},
+  {"de": "sample size", "art": "", "en": "the number of observations or participants in a study", "type": "collocation", "ex": "The findings are limited by a small sample size.", "exEn": "표본 크기 · pairs with adequate, sufficient, underpowered", "level": "Science"},
+  {"de": "margin of error", "art": "", "en": "the range within which the true value is likely to fall", "type": "collocation", "ex": "The poll has a margin of error of three percentage points.", "exEn": "오차 범위 · common in survey and measurement reporting", "level": "Science"},
+  {"de": "confidence interval", "art": "", "en": "a range of values likely to contain a parameter with stated probability", "type": "collocation", "ex": "The 95% confidence interval did not include zero.", "exEn": "신뢰 구간 · core statistics; often abbreviated CI", "level": "Science"},
+  {"de": "falsifiable", "art": "", "en": "capable of being proven false by observation or experiment", "type": "word", "ex": "A scientific claim must be falsifiable to be testable.", "exEn": "반증 가능한 · philosophy of science (Popper); noun 'falsifiability'", "level": "Science"},
+  {"de": "extrapolate", "art": "", "en": "to extend known results to estimate values beyond the data range", "type": "word", "ex": "It is risky to extrapolate from such a narrow dataset.", "exEn": "외삽하다 · contrast with 'interpolate'; pairs with from, beyond", "level": "Science"},
+  {"de": "corroborate", "art": "", "en": "to confirm or support a finding with additional evidence", "type": "word", "ex": "Independent studies corroborated the initial results.", "exEn": "입증하다, 뒷받침하다 · formal; near-synonym of confirm but stronger evidential sense", "level": "Science"},
+  {"de": "rigorous", "art": "", "en": "extremely thorough, careful, and methodologically sound", "type": "word", "ex": "The conclusions rest on rigorous experimental design.", "exEn": "엄밀한 · high praise in academia; pairs with method, analysis, testing", "level": "Science"},
+  {"de": "peer-reviewed journal", "art": "", "en": "a publication whose articles are vetted by independent experts", "type": "collocation", "ex": "The results appeared in a leading peer-reviewed journal.", "exEn": "동료 심사 학술지 · marker of credibility; standard academic phrasing", "level": "Science"},
+  {"de": "null hypothesis", "art": "", "en": "the default assumption that there is no effect or relationship", "type": "collocation", "ex": "The data allowed them to reject the null hypothesis.", "exEn": "귀무가설 · statistics; pairs with reject, fail to reject", "level": "Science"},
+  {"de": "meta-analysis", "art": "", "en": "a statistical synthesis combining results from multiple studies", "type": "word", "ex": "A meta-analysis of forty trials confirmed the effect.", "exEn": "메타분석 · formal; considered high-level evidence", "level": "Science"},
+  {"de": "deduce", "art": "", "en": "to reach a conclusion by logical reasoning from premises", "type": "word", "ex": "From these axioms one can deduce the theorem.", "exEn": "연역하다, 추론하다 · contrast with 'induce/infer'; noun 'deduction'", "level": "Science"},
+  {"de": "operationalize", "art": "", "en": "to define a concept in measurable, testable terms", "type": "word", "ex": "The team had to operationalize 'well-being' for the survey.", "exEn": "조작적으로 정의하다 · social science methods; British spelling 'operationalise'", "level": "Science"},
+  {"de": "underpin", "art": "", "en": "to support, justify, or form the basis of a theory or claim", "type": "word", "ex": "Several assumptions underpin the entire model.", "exEn": "뒷받침하다, 기초가 되다 · formal; common in academic writing about theory/evidence", "level": "Science"},
+  {"de": "errand", "art": "", "en": "a short trip to do a small task, often shopping or chores", "type": "word", "ex": "I have a few errands to run before the shops close.", "exEn": "심부름, 볼일 · neutral; often 'run errands'", "level": "Everyday"},
+  {"de": "hassle", "art": "", "en": "an annoying situation that involves effort or trouble", "type": "word", "ex": "Returning the package was such a hassle.", "exEn": "번거로운 일, 성가심 · casual; noun and verb", "level": "Everyday"},
+  {"de": "knack", "art": "", "en": "a natural skill or clever way of doing something", "type": "word", "ex": "She has a knack for explaining hard ideas simply.", "exEn": "요령, 타고난 재주 · casual; 'a knack for something'", "level": "Everyday"},
+  {"de": "tedious", "art": "", "en": "boring and tiresome because it goes on too long", "type": "word", "ex": "Filling out all those forms was tedious.", "exEn": "지루하고 지겨운 · neutral", "level": "Everyday"},
+  {"de": "cozy", "art": "", "en": "warm, comfortable, and snug", "type": "word", "ex": "The little café felt really cozy on a rainy day.", "exEn": "아늑한 · casual; positive", "level": "Everyday"},
+  {"de": "splurge", "art": "", "en": "to spend money freely on something as a treat", "type": "word", "ex": "We splurged on a fancy dinner for her birthday.", "exEn": "평소보다 돈을 지르다 · casual; often 'splurge on something'", "level": "Everyday"},
+  {"de": "procrastinate", "art": "", "en": "to keep putting off something you should do", "type": "word", "ex": "I always procrastinate when an essay is due.", "exEn": "미루다, 꾸물거리다 · neutral; slightly formal but common", "level": "Everyday"},
+  {"de": "overwhelmed", "art": "", "en": "feeling unable to cope because there's too much to handle", "type": "word", "ex": "I'm a bit overwhelmed with everything going on this week.", "exEn": "벅찬, 압도된 · neutral; very common", "level": "Everyday"},
+  {"de": "cringe", "art": "", "en": "to feel embarrassed or awkward about something", "type": "word", "ex": "I cringe every time I think about that joke I made.", "exEn": "오글거리다, 민망하다 · casual; also adjective 'cringey'", "level": "Everyday"},
+  {"de": "petty", "art": "", "en": "overly concerned with small, unimportant things, often unkindly", "type": "word", "ex": "It's petty to argue over who paid five bucks more.", "exEn": "쪼잔한, 옹졸한 · casual; mildly negative", "level": "Everyday"},
+  {"de": "sluggish", "art": "", "en": "slow-moving, lacking energy or speed", "type": "word", "ex": "I feel sluggish after a big lunch.", "exEn": "굼뜬, 나른한 · neutral", "level": "Everyday"},
+  {"de": "hunch", "art": "", "en": "a feeling that something is true without proof", "type": "word", "ex": "I had a hunch you'd be here.", "exEn": "직감, 예감 · casual; 'a hunch that...'", "level": "Everyday"},
+  {"de": "vibe", "art": "", "en": "the general mood or atmosphere of a place or person", "type": "word", "ex": "This place has a really chill vibe.", "exEn": "분위기, 느낌 · colloquial; also verb 'we vibe'", "level": "Everyday"},
+  {"de": "lowkey", "art": "", "en": "slightly or secretly (used to soften a statement)", "type": "word", "ex": "I'm lowkey excited for the trip.", "exEn": "은근히, 살짝 · slang; informal, very common online and in speech", "level": "Everyday"},
+  {"de": "fed up", "art": "", "en": "annoyed and out of patience with something", "type": "phrase", "ex": "I'm fed up with the constant noise from upstairs.", "exEn": "진절머리 난, 질린 · casual; 'fed up with something'", "level": "Everyday"},
+  {"de": "hit or miss", "art": "", "en": "inconsistent in quality; sometimes good, sometimes bad", "type": "phrase", "ex": "The food here is kind of hit or miss.", "exEn": "복불복, 들쭉날쭉한 · casual; idiom", "level": "Everyday"},
+  {"de": "get the hang of", "art": "", "en": "to learn how to do something with a bit of practice", "type": "phrase", "ex": "It's tricky at first, but you'll get the hang of it.", "exEn": "요령을 터득하다 · casual; 'get the hang of something'", "level": "Everyday"},
+  {"de": "run late", "art": "", "en": "to be behind schedule", "type": "phrase", "ex": "Sorry, I'm running a bit late.", "exEn": "늦어지다 · neutral; very common", "level": "Everyday"},
+  {"de": "grab a bite", "art": "", "en": "to eat something quick and casual", "type": "phrase", "ex": "Want to grab a bite after class?", "exEn": "간단히 뭐 좀 먹다 · casual; idiom", "level": "Everyday"},
+  {"de": "chip in", "art": "", "en": "to contribute money or help along with others", "type": "phrasal verb", "ex": "We all chipped in to buy her a gift.", "exEn": "돈을 보태다, 거들다 · casual", "level": "Everyday"},
+  {"de": "swamped", "art": "", "en": "extremely busy with too much to do", "type": "word", "ex": "I can't make it, I'm swamped at work.", "exEn": "눈코 뜰 새 없이 바쁜 · casual; often 'swamped with'", "level": "Everyday"},
+  {"de": "wing it", "art": "", "en": "to do something without preparation", "type": "phrase", "ex": "I didn't study, so I just winged it.", "exEn": "즉흥적으로 하다, 대충 때우다 · casual; idiom", "level": "Everyday"},
+  {"de": "nitpick", "art": "", "en": "to find small, unimportant faults", "type": "word", "ex": "I don't want to nitpick, but the title's misspelled.", "exEn": "트집 잡다, 사소한 흠 잡다 · casual; mildly negative", "level": "Everyday"},
+  {"de": "clingy", "art": "", "en": "too emotionally dependent and wanting constant closeness", "type": "word", "ex": "He got a little clingy after the second date.", "exEn": "집착하는, 들러붙는 · casual; usually about people", "level": "Everyday"},
+  {"de": "awkward", "art": "", "en": "causing or feeling embarrassment or social discomfort", "type": "word", "ex": "There was an awkward silence after his comment.", "exEn": "어색한, 뻘쭘한 · neutral; extremely common", "level": "Everyday"},
+  {"de": "bummed", "art": "", "en": "disappointed or down about something", "type": "word", "ex": "I'm so bummed the concert got cancelled.", "exEn": "실망한, 우울한 · casual; 'bummed about/out'", "level": "Everyday"},
+  {"de": "run out of", "art": "", "en": "to use up all of something so none is left", "type": "phrasal verb", "ex": "We've run out of milk again.", "exEn": "다 떨어지다, 바닥나다 · neutral; very common", "level": "Everyday"},
+  {"de": "second-guess", "art": "", "en": "to doubt or reconsider a decision after making it", "type": "word", "ex": "Stop second-guessing yourself and just go for it.", "exEn": "뒤늦게 의심하다, 재차 따지다 · casual; verb", "level": "Everyday"},
+  {"de": "the gist", "art": "", "en": "the main point or general idea of something", "type": "phrase", "ex": "I missed the meeting but I got the gist.", "exEn": "요지, 핵심 · casual; 'get the gist'", "level": "Everyday"},
+  {"de": "off the top of my head", "art": "", "en": "from memory, without checking or thinking carefully", "type": "phrase", "ex": "Off the top of my head, I'd say about fifty.", "exEn": "즉석에서, 생각나는 대로 · casual; idiom", "level": "Everyday"},
+  {"de": "touch base", "art": "", "en": "to make brief contact to share an update", "type": "collocation", "ex": "Let's touch base next week about the plan.", "exEn": "간단히 연락하다, 상황 공유하다 · neutral; common in work settings", "level": "Everyday"},
+  {"de": "a heads-up", "art": "", "en": "an advance warning or notice", "type": "phrase", "ex": "Thanks for the heads-up about the deadline.", "exEn": "미리 알려주는 것, 귀띔 · casual; 'give someone a heads-up'", "level": "Everyday"},
+  {"de": "worth a shot", "art": "", "en": "worth trying even if success isn't guaranteed", "type": "phrase", "ex": "I'm not sure it'll work, but it's worth a shot.", "exEn": "한번 해볼 만한 · casual; idiom", "level": "Everyday"},
+  {"de": "laid-back", "art": "", "en": "relaxed and easygoing in attitude", "type": "word", "ex": "My new boss is pretty laid-back about deadlines.", "exEn": "느긋한, 태평한 · casual; positive", "level": "Everyday"},
 ];
 
 /* ============================ State / storage ============================ */
@@ -1418,6 +1536,8 @@ const GRAMMAR = [{"id": "native-collocations", "title": "Collocations that make 
 
 const CASE_QUIZ = [{"q": "The new evidence ___ serious doubt on the original theory.", "options": ["casts", "throws", "puts"], "correct": "casts", "why": "The fixed collocation is \"cast doubt on\" something — \"cast\" pairs with \"doubt,\" not \"throw\" or \"put.\""}, {"q": "She's highly ___ of finishing the project ahead of schedule.", "options": ["capable", "able", "competent"], "correct": "capable", "why": "The dependent preposition pattern is \"capable of + -ing\"; \"able\" takes \"to\" and \"competent\" takes \"in/at.\""}, {"q": "After the scandal, the minister had no choice but to ___ his resignation.", "options": ["tender", "give", "hand"], "correct": "tender", "why": "In formal register the collocation is \"tender one's resignation\"; \"hand in\" is informal and \"give\" does not collocate here."}, {"q": "Let's not ___ the issue — we need a decision today.", "options": ["beat around the bush on", "beat around the bush about", "beat around the bush"], "correct": "beat around the bush about", "why": "The idiom \"beat around the bush\" takes \"about\" when naming the topic — \"beat around the bush about the issue.\""}, {"q": "I was ___ two minds about whether to accept the offer.", "options": ["in", "of", "at"], "correct": "in", "why": "The set idiom is \"in two minds\" (BrE) meaning undecided; the preposition is fixed as \"in.\""}, {"q": "The committee is responsible ___ allocating the annual budget.", "options": ["for", "of", "to"], "correct": "for", "why": "\"Responsible for + -ing/noun\" is the correct dependent preposition; \"responsible to\" means accountable to a person."}, {"q": "His remarks bore no ___ to the actual facts of the case.", "options": ["resemblance", "similarity", "likeness"], "correct": "resemblance", "why": "The collocation is \"bear no resemblance to\" — \"resemblance\" is the noun used in this fixed phrase."}, {"q": "Which is most natural? (declining politely in a formal email)", "options": ["I'm afraid I won't be able to attend.", "I can't come, sorry.", "No way I can make it."], "correct": "I'm afraid I won't be able to attend.", "why": "\"I'm afraid I won't be able to attend\" matches the polite, formal register; the others are too casual."}, {"q": "The two countries finally ___ a compromise after weeks of talks.", "options": ["reached", "arrived", "got"], "correct": "reached", "why": "The collocation is \"reach a compromise/agreement\"; \"arrive at\" needs \"at,\" and \"get\" does not fit here."}, {"q": "She paid little ___ to the warnings and carried on regardless.", "options": ["heed", "attention", "notice"], "correct": "heed", "why": "\"Pay heed to\" is the idiomatic collocation; while \"pay attention to\" exists, \"little heed\" is the natural fixed pairing here."}, {"q": "By the time we arrived, the meeting was already ___ full swing.", "options": ["in", "at", "on"], "correct": "in", "why": "The fixed idiom is \"in full swing,\" meaning at peak activity; the preposition is always \"in.\""}, {"q": "The defendant was ___ to a lengthy prison sentence.", "options": ["sentenced", "condemned", "convicted"], "correct": "sentenced", "why": "\"Sentenced to\" collocates with a punishment; \"convicted\" takes \"of\" a crime and \"condemned\" has a different nuance."}, {"q": "I take strong ___ to the way you characterised my proposal.", "options": ["exception", "objection", "offence"], "correct": "exception", "why": "The formal collocation is \"take exception to\" (to object to); \"take objection\" is not idiomatic and \"offence\" needs \"at.\""}, {"q": "We should ___ this opportunity while it lasts.", "options": ["seize", "grab", "catch"], "correct": "seize", "why": "The natural collocation is \"seize an opportunity\"; \"grab\" is informal and \"catch\" does not collocate with \"opportunity.\""}];
 
+const SYN_QUIZ = [{"q": "The new policy will ___ thousands of small businesses across the region.", "options": ["affect", "effect", "impact"], "correct": "affect", "why": "'affect' is the verb meaning to influence; 'effect' as a verb means to bring about, and 'impact' needs 'on' to take a direct object cleanly."}, {"q": "After months of negotiation, the committee finally managed to ___ real change in the bureaucracy.", "options": ["affect", "effect", "impact"], "correct": "effect", "why": "Here 'effect' is the verb meaning to bring about or accomplish; 'affect' would wrongly mean merely to influence."}, {"q": "The team ___ five engineers, two designers, and a project manager.", "options": ["comprises", "is comprised of", "composes"], "correct": "comprises", "why": "The whole 'comprises' its parts; 'is comprised of' is widely condemned as incorrect, and 'composes' reverses the relationship."}, {"q": "From the data showing a sharp drop in attendance, we can ___ that interest is waning.", "options": ["imply", "infer", "insinuate"], "correct": "infer", "why": "The listener/reader 'infers' (deduces) a conclusion, whereas the speaker 'implies' (hints at) it."}, {"q": "Please ___ that all the doors are locked before you leave the building.", "options": ["assure", "ensure", "insure"], "correct": "ensure", "why": "'ensure' means to make certain; 'assure' is to reassure a person, and 'insure' relates to insurance against loss."}, {"q": "Buying in bulk turned out to be the more ___ option for the household budget.", "options": ["economic", "economical", "economy"], "correct": "economical", "why": "'economical' means thrifty or cost-saving; 'economic' relates to the economy or economics in general."}, {"q": "The signing of the treaty was a truly ___ moment that schoolchildren still study today.", "options": ["historic", "historical", "history"], "correct": "historic", "why": "'historic' means momentous in history; 'historical' merely means relating to the past or to history."}, {"q": "The faucet's ___ dripping kept me awake all night long.", "options": ["continual", "continuous", "contiguous"], "correct": "continuous", "why": "'continuous' means uninterrupted in time; 'continual' implies repeated with breaks in between."}, {"q": "There were ___ mistakes in this draft than in the previous one.", "options": ["fewer", "less", "lesser"], "correct": "fewer", "why": "'fewer' is used with countable nouns like mistakes; 'less' is for uncountable quantities."}, {"q": "She gave a ___ answer that took everyone's feelings into account.", "options": ["sensible", "sensitive", "sensory"], "correct": "sensitive", "why": "'sensitive' means showing awareness of others' feelings; 'sensible' means practical and reasonable."}, {"q": "He has a deep appreciation for ___ music, especially Mozart and Beethoven.", "options": ["classic", "classical", "classy"], "correct": "classical", "why": "'classical' refers to the formal European art-music tradition; 'classic' means a definitive or timeless example."}, {"q": "A good thermostat is ___ at maintaining a stable room temperature with minimal energy.", "options": ["efficient", "effective", "efficacious"], "correct": "efficient", "why": "'efficient' stresses achieving results with little wasted effort or resources; 'effective' just means it produces the intended result."}, {"q": "Honesty was the guiding ___ behind every decision she made.", "options": ["principle", "principal", "principled"], "correct": "principle", "why": "'principle' is a noun meaning a fundamental rule or belief; 'principal' means chief or a head person."}, {"q": "The crisp white wine was the perfect ___ to the rich, buttery fish.", "options": ["complement", "compliment", "supplement"], "correct": "complement", "why": "'complement' means something that completes or pairs well; 'compliment' is an expression of praise."}, {"q": "The agent asked a few ___ questions so as not to alarm the suspect.", "options": ["discreet", "discrete", "discreetly"], "correct": "discreet", "why": "'discreet' means careful and unobtrusive; 'discrete' means separate or distinct."}, {"q": "The detective tried to ___ a confession from the nervous witness.", "options": ["elicit", "illicit", "solicit"], "correct": "elicit", "why": "'elicit' is a verb meaning to draw out a response; 'illicit' is an adjective meaning illegal."}, {"q": "You'll find envelopes and notepads in the ___ cupboard by the printer.", "options": ["stationary", "stationery", "stationing"], "correct": "stationery", "why": "'stationery' (with an 'e') means writing materials; 'stationary' means not moving."}, {"q": "The medication may have ___ effects, including dizziness and nausea.", "options": ["adverse", "averse", "diverse"], "correct": "adverse", "why": "'adverse' means harmful or unfavourable (of things); 'averse' means having a strong dislike (of people)."}, {"q": "The arrival of the storm seemed ___, so they boarded up the windows at once.", "options": ["imminent", "eminent", "immanent"], "correct": "imminent", "why": "'imminent' means about to happen; 'eminent' means distinguished or respected."}, {"q": "The stadium has the ___ to hold sixty thousand spectators.", "options": ["capacity", "ability", "capability"], "correct": "capacity", "why": "'capacity' denotes the maximum amount something can contain; 'ability' refers to the power to perform an action."}, {"q": "A surprising ___ of applicants withdrew before the interview stage.", "options": ["number", "amount", "quantity"], "correct": "number", "why": "'number' is used for countable nouns like applicants; 'amount' is for uncountable mass nouns."}, {"q": "Could you ___ the flag a little higher so everyone can see it?", "options": ["raise", "rise", "arise"], "correct": "raise", "why": "'raise' is transitive and takes an object; 'rise' is intransitive and takes no object."}, {"q": "I think I'll ___ down for a short nap before dinner.", "options": ["lie", "lay", "laid"], "correct": "lie", "why": "'lie' is intransitive (to recline) and takes no object; 'lay' is transitive and requires an object."}, {"q": "The shop is just a little ___ down the road, past the old church.", "options": ["farther", "further", "furthest"], "correct": "farther", "why": "'farther' is preferred for literal physical distance; 'further' is favoured for figurative or abstract extent."}, {"q": "Bring some warm clothing, ___ a coat, a scarf, and thick gloves.", "options": ["e.g.", "i.e.", "viz."], "correct": "e.g.", "why": "'e.g.' introduces examples (Latin 'for the sake of example'), whereas 'i.e.' restates or clarifies (Latin 'that is')."}];
+
 function inlineG(t) { return escapeHtml(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>'); }
 
 function renderBlocks(blocks) {
@@ -1473,73 +1593,71 @@ function markGrammarSeen(id) {
 }
 
 /* ---- case quiz ---- */
-let quizOrder = [], quizPos = 0, quizScore = 0;
 function shuffle(a) { for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
-function renderQuizStart() {
-  const box = document.getElementById('quizBox');
-  const best = (progress.quizBest != null && progress.quizTotal) ? `Best: ${progress.quizBest}/${progress.quizTotal} · ` : '';
-  box.innerHTML =
-    `<p class="quiz-intro">Pick the correct article (or pronoun) for each sentence. ${CASE_QUIZ.length} quick questions.</p>` +
-    `<div class="quiz-progress">${best}${progress.quizAttempts || 0} attempt(s) so far</div>` +
-    `<button class="btn primary" id="startQuiz">Start case quiz</button>`;
-  document.getElementById('startQuiz').addEventListener('click', startQuiz);
-}
-
-function startQuiz() {
-  quizOrder = shuffle(Array.from(CASE_QUIZ.keys()));
-  quizPos = 0; quizScore = 0;
-  renderQuiz();
-}
-
-function renderQuiz() {
-  const box = document.getElementById('quizBox');
-  if (quizPos >= quizOrder.length) {
-    const total = quizOrder.length;
-    if (progress.quizBest == null || quizScore > progress.quizBest) progress.quizBest = quizScore;
-    progress.quizTotal = total;
-    progress.quizAttempts = (progress.quizAttempts || 0) + 1;
-    recordActivity();
-    save();
-    refreshAll();
-    box.innerHTML = `<div class="quiz-result"><div class="big">${quizScore} / ${total}</div><p>${quizMsg(quizScore,total)}</p><button class="btn primary" id="retryQuiz">Try again</button></div>`;
-    document.getElementById('retryQuiz').addEventListener('click', startQuiz);
-    return;
+// Reusable quiz engine — one instance per quiz (DOM-scoped so multiple quizzes don't clash).
+function createQuiz(cfg) {
+  let order = [], pos = 0, score = 0;
+  function renderStart() {
+    const box = document.getElementById(cfg.boxId);
+    if (!box) return;
+    const best = (progress[cfg.bestKey] != null && progress[cfg.totalKey]) ? `Best: ${progress[cfg.bestKey]}/${progress[cfg.totalKey]} · ` : '';
+    box.innerHTML =
+      `<p class="quiz-intro">${cfg.intro(cfg.data.length)}</p>` +
+      `<div class="quiz-progress">${best}${progress[cfg.attemptsKey] || 0} attempt(s) so far</div>` +
+      `<button class="btn primary qz-start">${cfg.startLabel}</button>`;
+    box.querySelector('.qz-start').addEventListener('click', start);
   }
-  const q = CASE_QUIZ[quizOrder[quizPos]];
-  const opts = shuffle(q.options.slice());
-  box.innerHTML =
-    `<div class="quiz-progress">Question ${quizPos+1} of ${quizOrder.length} · Score ${quizScore}</div>` +
-    `<div class="quiz-q">${escapeHtml(q.q)}</div>` +
-    `<div class="quiz-options">${opts.map(o => `<button data-o="${escapeHtml(o)}">${escapeHtml(o)}</button>`).join('')}</div>` +
-    `<div class="quiz-why" id="quizWhy" style="display:none"></div>` +
-    `<button class="btn primary" id="quizNext" style="display:none">Next →</button>`;
-  box.querySelectorAll('.quiz-options button').forEach(btn => btn.addEventListener('click', () => answerQuiz(btn, q)));
+  function start() { order = shuffle(Array.from(cfg.data.keys())); pos = 0; score = 0; render(); }
+  function render() {
+    const box = document.getElementById(cfg.boxId);
+    if (!box) return;
+    if (pos >= order.length) {
+      const total = order.length;
+      if (progress[cfg.bestKey] == null || score > progress[cfg.bestKey]) progress[cfg.bestKey] = score;
+      progress[cfg.totalKey] = total;
+      progress[cfg.attemptsKey] = (progress[cfg.attemptsKey] || 0) + 1;
+      recordActivity(); save(); refreshAll();
+      box.innerHTML = `<div class="quiz-result"><div class="big">${score} / ${total}</div><p>${cfg.msg(score, total)}</p><button class="btn primary qz-retry">Try again</button></div>`;
+      box.querySelector('.qz-retry').addEventListener('click', start);
+      return;
+    }
+    const q = cfg.data[order[pos]];
+    const opts = shuffle(q.options.slice());
+    box.innerHTML =
+      `<div class="quiz-progress">Question ${pos+1} of ${order.length} · Score ${score}</div>` +
+      `<div class="quiz-q">${escapeHtml(q.q)}</div>` +
+      `<div class="quiz-options">${opts.map(o => `<button data-o="${escapeHtml(o)}">${escapeHtml(o)}</button>`).join('')}</div>` +
+      `<div class="quiz-why" style="display:none"></div>` +
+      `<button class="btn primary qz-next" style="display:none">Next →</button>`;
+    box.querySelectorAll('.quiz-options button').forEach(btn => btn.addEventListener('click', () => answer(box, btn, q)));
+  }
+  function answer(box, btn, q) {
+    box.querySelectorAll('.quiz-options button').forEach(b => { b.disabled = true; if (b.dataset.o === q.correct) b.classList.add('correct'); });
+    if (btn.dataset.o === q.correct) { score++; playCorrect(); } else { btn.classList.add('wrong'); playWrong(); }
+    const why = box.querySelector('.quiz-why');
+    why.style.display = 'block';
+    why.innerHTML = (btn.dataset.o === q.correct ? '✅ Correct. ' : `❌ Answer: <strong>${escapeHtml(q.correct)}</strong>. `) + inlineG(q.why);
+    const next = box.querySelector('.qz-next');
+    next.style.display = 'block';
+    next.addEventListener('click', () => { pos++; render(); });
+  }
+  return { renderStart };
 }
 
-function answerQuiz(btn, q) {
-  const chosen = btn.dataset.o;
-  document.querySelectorAll('.quiz-options button').forEach(b => {
-    b.disabled = true;
-    if (b.dataset.o === q.correct) b.classList.add('correct');
-  });
-  if (chosen === q.correct) { quizScore++; playCorrect(); }
-  else { btn.classList.add('wrong'); playWrong(); }
-  const why = document.getElementById('quizWhy');
-  why.style.display = 'block';
-  why.innerHTML = (chosen === q.correct ? '✅ Correct. ' : `❌ Correct answer: <strong>${escapeHtml(q.correct)}</strong>. `) + inlineG(q.why);
-  const next = document.getElementById('quizNext');
-  next.style.display = 'block';
-  next.addEventListener('click', () => { quizPos++; renderQuiz(); });
-}
-
-function quizMsg(s, t) {
-  const p = s / t;
-  if (p === 1) return "Perfect! You've got the cases down. 🏆";
-  if (p >= 0.7) return "Great work — the cases are clicking.";
-  if (p >= 0.4) return "Good start. Review the article tables above and try again.";
-  return "Cases take practice. Read the tables above, then retry.";
-}
+const usageQuiz = createQuiz({
+  data: CASE_QUIZ, boxId: 'quizBox', startLabel: 'Start usage quiz',
+  bestKey: 'quizBest', totalKey: 'quizTotal', attemptsKey: 'quizAttempts',
+  intro: n => `Pick the most natural option for each sentence. ${n} quick questions.`,
+  msg: (s, t) => { const p = s / t; if (p === 1) return "Perfect — that's native-level instinct. 🏆"; if (p >= 0.7) return "Great — your ear for natural English is sharp."; if (p >= 0.4) return "Good. Review the topics above and try again."; return "Tricky — read the topics above, then retry."; }
+});
+const synQuiz = createQuiz({
+  data: SYN_QUIZ, boxId: 'synQuizBox', startLabel: 'Start synonym duel',
+  bestKey: 'synBest', totalKey: 'synTotal', attemptsKey: 'synAttempts',
+  intro: n => `Choose the precise word among near-synonyms. ${n} questions.`,
+  msg: (s, t) => { const p = s / t; if (p === 1) return "Flawless word precision. 🏆"; if (p >= 0.7) return "Strong — you nail the fine distinctions."; if (p >= 0.4) return "Decent — these pairs are subtle. Try again."; return "Near-synonyms are slippery. Retry to sharpen them."; }
+});
+function renderQuizStart() { usageQuiz.renderStart(); synQuiz.renderStart(); }
 
 /* ============================ Write — sentence builder ============================ */
 const WRITE_TASKS = {
