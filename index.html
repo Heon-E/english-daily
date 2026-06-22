@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>English Daily — Advanced Vocabulary & Expressions</title>
+<style>
+  :root {
+    --bg: #faf8f3;
+    --surface: #ffffff;
+    --surface-2: #f4f0e7;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e7e2d6;
+    --accent: #c2902f;        /* amber / gold */
+    --accent-soft: #f6ecd6;
+    --red: #a8362f;           /* muted German red */
+    --green: #2f8f5b;
+    --shadow: 0 6px 24px rgba(40, 35, 20, 0.08);
+    --radius: 16px;
+  }
+  [data-theme="dark"] {
+    --bg: #14161b;
+    --surface: #1d2027;
+    --surface-2: #23272f;
+    --text: #e9e6df;
+    --muted: #9aa0ab;
+    --border: #2c313b;
+    --accent: #d8a83f;
+    --accent-soft: #2b2a20;
+    --red: #d2675f;
+    --green: #4cb37e;
+    --shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .flag-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #1a1a1a 0 33%, var(--red) 33% 66%, var(--accent) 66% 100%);
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 18px 60px; }
+
+  header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 22px 0 14px;
+  }
+  header .brand { display: flex; flex-direction: column; }
+  header h1 {
+    font-size: 1.5rem; margin: 0; letter-spacing: -0.01em;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  header .sub { color: var(--muted); font-size: 0.82rem; }
+  header .spacer { flex: 1; }
+  .icon-btn {
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text); border-radius: 10px; width: 40px; height: 40px;
+    font-size: 1.05rem; cursor: pointer; display: grid; place-items: center;
+    transition: background .15s, transform .1s;
+  }
+  .icon-btn:hover { background: var(--surface-2); }
+  .icon-btn:active { transform: scale(.95); }
+  .streak-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent-soft); color: var(--accent);
+    border: 1px solid var(--border);
+    padding: 7px 12px; border-radius: 999px; font-weight: 600; font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  /* Tabs */
+  .storage-warn {
+    background: color-mix(in srgb, var(--red) 12%, var(--surface));
+    border: 1px solid var(--red); color: var(--text);
+    border-radius: 12px; padding: 12px 14px; margin: 6px 0 14px; font-size: 0.86rem; line-height: 1.5;
+  }
+
+  /* Level bar + breakdown + toast */
+  .level-bar { display: flex; gap: 6px; margin: 2px 0 16px; flex-wrap: wrap; }
+  .level-chip {
+    flex: 1 1 auto; border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+    border-radius: 10px; padding: 8px 8px; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+    transition: all .15s; white-space: nowrap; text-align: center;
+  }
+  .level-chip:hover:not(.locked):not(.active) { border-color: var(--accent); color: var(--text); }
+  .level-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .level-chip.locked { opacity: .5; cursor: not-allowed; }
+  .lvl-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; font-size: 0.88rem; }
+  .lvl-row.cur .lvl-name { color: var(--accent); }
+  .lvl-name { width: 48px; font-weight: 700; flex-shrink: 0; }
+  .lvl-bar { flex: 1; height: 8px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+  .lvl-bar > span { display: block; height: 100%; background: var(--accent); border-radius: 999px; transition: width .4s; }
+  .lvl-n { width: 58px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+    background: var(--text); color: var(--bg); padding: 12px 18px; border-radius: 12px;
+    font-size: 0.9rem; font-weight: 600; box-shadow: var(--shadow); opacity: 0; pointer-events: none;
+    transition: opacity .25s, transform .25s; z-index: 100; max-width: 88vw; text-align: center;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .tabs {
+    display: flex; gap: 4px; background: var(--surface-2);
+    padding: 5px; border-radius: 12px; margin: 6px 0 22px;
+  }
+  .tabs button {
+    flex: 1; border: 0; background: transparent; color: var(--muted);
+    padding: 10px 8px; border-radius: 9px; cursor: pointer; font-size: 0.92rem;
+    font-weight: 600; transition: all .15s;
+  }
+  .tabs button.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .25s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .section-label {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted); font-weight: 700; margin-bottom: 8px;
+  }
+
+  /* Flashcard */
+  .card-stage { perspective: 1400px; }
+  .flashcard {
+    position: relative; width: 100%; min-height: 240px; cursor: pointer;
+    transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .face {
+    position: absolute; inset: 0; backface-visibility: hidden;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 28px; display: flex; flex-direction: column; justify-content: center;
+    align-items: center; text-align: center;
+  }
+  .face.back { transform: rotateY(180deg); }
+  .badge {
+    position: absolute; top: 14px; left: 14px;
+    background: var(--accent); color: #fff; font-size: 0.68rem; font-weight: 700;
+    padding: 4px 9px; border-radius: 999px; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .pos-tag {
+    position: absolute; top: 14px; right: 14px;
+    color: var(--muted); font-size: 0.72rem; font-weight: 600;
+  }
+  .word-de {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2rem; line-height: 1.15; overflow-wrap: anywhere; letter-spacing: -0.01em;
+  }
+  .word-de .art { color: var(--accent); font-style: italic; }
+  .flip-hint { color: var(--muted); font-size: 0.78rem; margin-top: 16px; }
+  .word-en { font-size: 1.7rem; font-weight: 700; margin-bottom: 4px; }
+  .ex { color: var(--text); font-style: italic; margin-top: 14px; font-size: 1.05rem; }
+  .ex-en { color: var(--muted); font-size: 0.92rem; margin-top: 2px; }
+  .speak-btn {
+    margin-top: 16px; border: 1px solid var(--border); background: var(--surface-2); color: var(--accent);
+    width: 46px; height: 46px; border-radius: 50%; font-size: 1.15rem; cursor: pointer;
+    display: inline-grid; place-items: center; transition: transform .1s, background .15s;
+  }
+  .speak-btn:hover { background: var(--accent-soft); }
+  .speak-btn:active { transform: scale(.9); }
+  .speak-btn.speaking { color: #fff; background: var(--accent); animation: pulse 1.1s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); } 50% { box-shadow: 0 0 0 7px transparent; } }
+
+  .card-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 4px; }
+  .btn {
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+    padding: 11px 14px; border-radius: 11px; cursor: pointer; font-size: 0.9rem;
+    font-weight: 600; transition: all .15s; flex: 1; min-width: 120px;
+  }
+  .btn:hover { background: var(--surface-2); }
+  .btn:active { transform: translateY(1px); }
+  .btn.known { border-color: var(--green); color: var(--green); }
+  .btn.known:hover { background: color-mix(in srgb, var(--green) 12%, transparent); }
+  .btn.practice { border-color: var(--accent); color: var(--accent); }
+  .btn.practice:hover { background: var(--accent-soft); }
+  .btn.ghost { color: var(--muted); }
+
+  /* daily goal */
+  .goal-box {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 18px; margin-top: 20px; box-shadow: var(--shadow);
+  }
+  .goal-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .goal-row .n { font-weight: 700; }
+  .bar { height: 10px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+  .bar > span { display: block; height: 100%; background: var(--accent); width: 0%; transition: width .4s; border-radius: 999px; }
+
+  /* Progress tab */
+  .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 22px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px; box-shadow: var(--shadow);
+  }
+  .stat .big { font-size: 1.9rem; font-weight: 800; font-family: Georgia, serif; }
+  .stat .lbl { color: var(--muted); font-size: 0.82rem; margin-top: 2px; }
+  .mastery-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); margin-bottom: 22px; }
+
+  .heatmap { display: grid; grid-template-rows: repeat(7, 1fr); grid-auto-flow: column; gap: 3px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px; }
+  .hcell { width: 13px; height: 13px; border-radius: 3px; background: var(--surface-2); }
+  .hcell.l1 { background: color-mix(in srgb, var(--accent) 30%, var(--surface-2)); }
+  .hcell.l2 { background: color-mix(in srgb, var(--accent) 55%, var(--surface-2)); }
+  .hcell.l3 { background: color-mix(in srgb, var(--accent) 78%, var(--surface-2)); }
+  .hcell.l4 { background: var(--accent); }
+  .legend { display: flex; align-items: center; gap: 6px; justify-content: flex-end; color: var(--muted); font-size: 0.72rem; margin-top: 8px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+  .chip {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px;
+    padding: 6px 12px; font-size: 0.85rem; cursor: pointer; transition: all .15s;
+  }
+  .chip:hover { background: var(--accent-soft); border-color: var(--accent); }
+  .chip .art { color: var(--accent); font-style: italic; }
+  .empty { color: var(--muted); font-size: 0.9rem; padding: 8px 0; }
+
+  /* Grammar */
+  .gram-intro, .quiz-intro { color: var(--muted); font-size: 0.9rem; margin: 6px 0 16px; }
+  .gram-list { display: flex; flex-direction: column; gap: 8px; }
+  .gram-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+  .gram-head {
+    width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    background: none; border: 0; color: var(--text); padding: 15px 16px; cursor: pointer;
+    font-size: 0.98rem; font-weight: 600; text-align: left;
+  }
+  .gram-head .chev { color: var(--accent); transition: transform .2s; flex-shrink: 0; }
+  .gram-item.open .gram-head .chev { transform: rotate(90deg); }
+  .gram-body { display: none; padding: 0 16px 16px; }
+  .gram-item.open .gram-body { display: block; animation: fade .2s ease; }
+  .gram-body p { margin: 10px 0; font-size: 0.94rem; }
+  .gram-body .tip { background: var(--accent-soft); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 0.88rem; margin: 12px 0; }
+  .gtable-wrap { overflow-x: auto; margin: 12px 0; }
+  .gtable { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+  .gtable th, .gtable td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; white-space: nowrap; }
+  .gtable thead th { background: var(--surface-2); font-weight: 700; }
+  .gtable td.rowhead { font-weight: 700; color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+  .ex-list { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .ex-item { display: flex; flex-direction: column; border-left: 3px solid var(--accent); padding-left: 10px; }
+  .ex-item .ex-de { font-style: italic; }
+  .ex-item .ex-en { color: var(--muted); font-size: 0.86rem; }
+  .ask-topic { margin-top: 12px; width: auto; flex: none; min-width: 0; }
+
+  .quiz-wrap { margin-top: 28px; }
+  #quizBox { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+  .quiz-progress { color: var(--muted); font-size: 0.8rem; margin-bottom: 10px; }
+  .quiz-q { font-size: 1.25rem; font-family: Georgia, serif; margin-bottom: 14px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-options button {
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+    padding: 12px 14px; border-radius: 10px; cursor: pointer; font-size: 1rem; font-weight: 600; text-align: left; transition: all .12s;
+  }
+  .quiz-options button:hover:not(:disabled) { border-color: var(--accent); }
+  .quiz-options button:disabled { cursor: default; opacity: .9; }
+  .quiz-options button.correct { border-color: var(--green); background: color-mix(in srgb, var(--green) 14%, transparent); color: var(--green); }
+  .quiz-options button.wrong { border-color: var(--red); background: color-mix(in srgb, var(--red) 12%, transparent); color: var(--red); }
+  .quiz-why { margin-top: 12px; font-size: 0.9rem; background: var(--surface-2); border-radius: 10px; padding: 11px 13px; }
+  .quiz-result { text-align: center; }
+  .quiz-result .big { font-size: 2.4rem; font-weight: 800; font-family: Georgia, serif; }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  #quizNext, #startQuiz, #retryQuiz { margin-top: 14px; width: auto; flex: none; min-width: 0; }
+
+  /* Write (sentence builder) */
+  .write-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+  .write-task { font-size: 1.05rem; line-height: 1.55; }
+  .write-task .wt-word { font-family: Georgia, serif; font-size: 1.3rem; }
+  .write-task .art { color: var(--accent); font-style: italic; }
+  .write-task .gloss { color: var(--muted); font-size: 0.95rem; }
+  .write-task .wt-do { margin-top: 10px; font-size: 0.9rem; font-weight: 600; background: var(--accent-soft); border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; }
+  #writeInput { width: 100%; margin-top: 14px; resize: vertical; min-height: 64px; border: 1px solid var(--border); border-radius: 11px; padding: 11px 13px; font-family: inherit; font-size: 1rem; background: var(--bg); color: var(--text); }
+  .write-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .write-actions .btn { flex: 1; min-width: 0; }
+  .wr-loading { color: var(--muted); padding: 12px 2px; font-size: 0.9rem; }
+  .wr { margin-top: 14px; border-radius: 12px; padding: 13px 15px; border: 1px solid var(--border); }
+  .wr.verdict-correct { background: color-mix(in srgb, var(--green) 12%, transparent); border-color: var(--green); }
+  .wr.verdict-minor { background: var(--accent-soft); border-color: var(--accent); }
+  .wr.verdict-wrong { background: color-mix(in srgb, var(--red) 10%, transparent); border-color: var(--red); }
+  .wr-head { font-weight: 700; margin-bottom: 6px; }
+  .wr-corrected { font-size: 1.1rem; font-style: italic; margin: 4px 0; }
+  .wr-meaning { color: var(--muted); font-size: 0.9rem; margin-bottom: 8px; }
+  .wr-feedback { font-size: 0.92rem; line-height: 1.5; }
+  .speak-inline { border: 1px solid var(--border); background: var(--surface); color: var(--accent); border-radius: 8px; width: 30px; height: 30px; cursor: pointer; vertical-align: middle; }
+  .speak-inline:hover { background: var(--accent-soft); }
+
+  /* Chat */
+  .chat-window {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    box-shadow: var(--shadow); height: 460px; display: flex; flex-direction: column; overflow: hidden;
+  }
+  .chat-scroll { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .msg { max-width: 86%; padding: 11px 14px; border-radius: 14px; font-size: 0.95rem; white-space: normal; word-wrap: break-word; }
+  .msg.user { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+  .msg.assistant { align-self: flex-start; background: var(--surface-2); color: var(--text); border-bottom-left-radius: 4px; }
+  .msg.assistant code { background: rgba(127,127,127,.18); padding: 1px 5px; border-radius: 5px; font-size: 0.88em; }
+  .msg.assistant pre { background: rgba(127,127,127,.14); padding: 10px; border-radius: 8px; overflow-x: auto; }
+  .msg.assistant pre code { background: none; padding: 0; }
+  .msg.assistant strong { font-weight: 700; }
+  .msg .cursor { display: inline-block; width: 7px; height: 1em; background: var(--muted); vertical-align: -2px; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .chat-empty { margin: auto; text-align: center; color: var(--muted); padding: 20px; }
+  .suggest { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; margin-top: 14px; }
+
+  .chat-input { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border); background: var(--surface); }
+  .chat-input textarea {
+    flex: 1; resize: none; border: 1px solid var(--border); border-radius: 11px;
+    padding: 10px 12px; font-family: inherit; font-size: 0.95rem; background: var(--bg); color: var(--text);
+    max-height: 120px;
+  }
+  .send-btn { border: 0; background: var(--accent); color: #fff; border-radius: 11px; padding: 0 18px; font-weight: 700; cursor: pointer; }
+  .send-btn:disabled { opacity: .5; cursor: default; }
+  .chat-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .chat-bar .model-tag { font-size: 0.78rem; color: var(--muted); }
+  .linklike { background: none; border: 0; color: var(--accent); cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+
+  /* Modal */
+  .modal-back { position: fixed; inset: 0; background: rgba(20,18,12,.5); display: none; place-items: center; padding: 18px; z-index: 50; }
+  .modal-back.open { display: grid; }
+  .modal {
+    background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border);
+    box-shadow: var(--shadow); width: 100%; max-width: 460px; padding: 22px; max-height: 90vh; overflow-y: auto;
+  }
+  .modal h2 { margin: 0 0 4px; font-size: 1.2rem; }
+  .field { margin-top: 16px; }
+  .field label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+  .field input, .field select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--bg); color: var(--text); font-family: inherit; font-size: 0.95rem;
+  }
+  .field label.checkrow { display: flex; align-items: center; gap: 9px; font-weight: 600; cursor: pointer; }
+  .field label.checkrow input { width: auto; }
+  .note { font-size: 0.8rem; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+  .note.warn { background: var(--accent-soft); border: 1px solid var(--border); padding: 10px 12px; border-radius: 10px; color: var(--text); }
+  .modal-actions { display: flex; gap: 8px; margin-top: 20px; }
+  .modal-actions .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .danger-btn { background: none; border: 1px solid var(--red); color: var(--red); border-radius: 10px; padding: 9px 12px; cursor: pointer; font-weight: 600; width: 100%; margin-top: 8px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="flag-bar"></div>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>English&nbsp;Daily</h1>
+      <span class="sub">Polish your English · C1–C2</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="streak-chip" id="streakChip" title="Day streak">🔥 <span id="streakNum">0</span></div>
+    <button class="icon-btn" id="themeBtn" title="Toggle theme">🌙</button>
+    <button class="icon-btn" id="settingsBtn" title="Settings">⚙️</button>
+  </header>
+
+  <div class="storage-warn" id="storageWarn" style="display:none">
+    ⚠️ <b>Progress won't be saved in this view.</b> Open <b>english-trainer.html</b> directly in a normal Chrome tab (not a preview pane or private window) so your streak, words, and quiz scores are remembered.
+  </div>
+
+  <div class="tabs">
+    <button data-tab="today" class="active">Today</button>
+    <button data-tab="grammar">Usage</button>
+    <button data-tab="write">Write</button>
+    <button data-tab="tutor">Tutor</button>
+    <button data-tab="progress">Progress</button>
+  </div>
+
+  <!-- TODAY -->
+  <section class="panel active" id="panel-today">
+    <div class="level-bar" id="levelBar"></div>
+    <div class="card-stage">
+      <div class="flashcard" id="flashcard">
+        <div class="face front">
+          <span class="badge" id="wotdBadge" style="display:none">Today's pick</span>
+          <span class="pos-tag" id="posTag"></span>
+          <div class="word-de" id="frontWord"></div>
+          <button class="speak-btn" id="speakFront" title="Hear pronunciation" aria-label="Hear pronunciation">🔊</button>
+          <div class="flip-hint">tap card to reveal</div>
+        </div>
+        <div class="face back">
+          <span class="pos-tag" id="posTagBack"></span>
+          <div class="word-en" id="backEn"></div>
+          <div class="ex" id="backEx"></div>
+          <div class="ex-en" id="backExEn"></div>
+          <button class="speak-btn" id="speakBack" title="Hear the example sentence" aria-label="Hear the example sentence">🔊</button>
+          <div class="flip-hint">tap card to flip back</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button class="btn known" id="knownBtn">✓ I knew it</button>
+      <button class="btn practice" id="practiceBtn">↻ Practice again</button>
+    </div>
+    <div class="card-actions">
+      <button class="btn ghost" id="nextBtn">Next word →</button>
+      <button class="btn ghost" id="askWordBtn">💬 Ask the tutor</button>
+    </div>
+
+    <div class="goal-box">
+      <div class="goal-row">
+        <span>Daily goal</span>
+        <span class="n"><span id="goalDone">0</span> / <span id="goalTotal">5</span> words</span>
+      </div>
+      <div class="bar"><span id="goalBar"></span></div>
+      <div class="note" id="goalMsg" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <!-- GRAMMAR -->
+  <section class="panel" id="panel-grammar">
+    <p class="section-label" style="margin:0">Usage & native expressions</p>
+    <p class="gram-intro">Tap a topic to expand — collocations, register, idioms and what makes English sound native.</p>
+    <div class="gram-list" id="gramList"></div>
+
+    <div class="quiz-wrap">
+      <div class="section-label" style="margin-bottom:4px">Practice — native usage quiz</div>
+      <div id="quizBox"></div>
+    </div>
+  </section>
+
+  <!-- WRITE -->
+  <section class="panel" id="panel-write">
+    <div class="chat-bar">
+      <span class="section-label" style="margin:0">Build a sentence · <span id="writeLevel">A1</span></span>
+      <span class="model-tag" id="writeModelTag"></span>
+    </div>
+    <div class="write-card">
+      <div class="write-task" id="writeTask"></div>
+      <textarea id="writeInput" rows="2" placeholder="Write your English sentence here…"></textarea>
+      <div class="write-actions">
+        <button class="btn primary" id="writeCheck">Check</button>
+        <button class="btn ghost" id="writeNext">New word →</button>
+      </div>
+      <div class="write-result" id="writeResult"></div>
+    </div>
+    <div class="note" id="writeNoKey" style="display:none; margin-top:12px">
+      ⚠️ Add your free Gemini API key in <b>Settings ⚙️</b> to enable sentence checking (same key as the Tutor).
+    </div>
+  </section>
+
+  <!-- TUTOR -->
+  <section class="panel" id="panel-tutor">
+    <div class="chat-bar">
+      <span class="section-label" style="margin:0">Ask your English coach</span>
+      <div>
+        <span class="model-tag" id="modelTag"></span>
+        <button class="linklike" id="clearChat">Clear</button>
+      </div>
+    </div>
+    <div class="chat-window">
+      <div class="chat-scroll" id="chatScroll">
+        <div class="chat-empty" id="chatEmpty">
+          <div style="font-size:2rem">🗣️</div>
+          <p>Ask me anything — natural phrasing, nuance, register, synonyms, or “is this correct?”</p>
+          <div class="suggest" id="suggestChips"></div>
+        </div>
+      </div>
+      <div class="chat-input">
+        <textarea id="chatText" rows="1" placeholder="Type your question…"></textarea>
+        <button class="send-btn" id="sendBtn">Send</button>
+      </div>
+    </div>
+    <div class="note" id="noKeyNote" style="display:none; margin-top:12px">
+      ⚠️ No API key set yet. Open <b>Settings ⚙️</b> to add your free Gemini API key and enable the tutor.
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="panel" id="panel-progress">
+    <div class="stat-grid">
+      <div class="stat"><div class="big" id="statStreak">0</div><div class="lbl">🔥 Day streak</div></div>
+      <div class="stat"><div class="big" id="statKnown">0</div><div class="lbl">✓ Words known</div></div>
+      <div class="stat"><div class="big" id="statToday">0</div><div class="lbl">📆 Reviewed today</div></div>
+      <div class="stat"><div class="big" id="statTotal">0</div><div class="lbl">📚 Total reviews</div></div>
+      <div class="stat"><div class="big" id="statGrammar">0</div><div class="lbl">📖 Usage topics</div></div>
+      <div class="stat"><div class="big" id="statQuiz">—</div><div class="lbl">🏆 Best case quiz</div></div>
+    </div>
+
+    <div class="mastery-wrap">
+      <div class="goal-row"><span class="section-label" style="margin:0">Vocabulary mastery (all categories)</span><span class="n"><span id="masteryN">0</span> / <span id="masteryTotal">0</span></span></div>
+      <div class="bar" style="margin-top:8px"><span id="masteryBar"></span></div>
+    </div>
+
+    <div class="mastery-wrap">
+      <div class="section-label" style="margin:0 0 6px">By category</div>
+      <div id="levelBreakdown"></div>
+    </div>
+
+    <div class="mastery-wrap">
+      <div class="section-label" style="margin:0">Activity (last 13 weeks)</div>
+      <div class="heatmap" id="heatmap"></div>
+      <div class="legend">less <span class="hcell"></span><span class="hcell l1"></span><span class="hcell l2"></span><span class="hcell l3"></span><span class="hcell l4"></span> more</div>
+    </div>
+
+    <div class="mastery-wrap">
+      <div class="section-label" style="margin:0">Words to practice</div>
+      <div class="chips" id="practiceChips"></div>
+    </div>
+
+    <div class="mastery-wrap">
+      <div class="section-label" style="margin:0">Known words</div>
+      <div class="chips" id="knownChips"></div>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Settings modal -->
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <h2>Settings</h2>
+    <p class="note">Everything here is stored only in this browser.</p>
+
+    <div class="field">
+      <label for="keyInput">Gemini API key (Google AI Studio)</label>
+      <input type="password" id="keyInput" placeholder="AIza…" autocomplete="off" />
+      <div class="note">Free to get at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> (Google account only). Powers the Tutor chat and Write checking.</div>
+      <div class="note warn">🔒 Your key is saved only in this browser and sent only to Google's Gemini API. On the free tier, Google may use your prompts to improve their products. Don't publish the file with your key in it.</div>
+    </div>
+
+    <div class="field">
+      <label for="modelSelect">Model (all free tier)</label>
+      <select id="modelSelect">
+        <option value="gemini-2.5-flash">Gemini 2.5 Flash — recommended</option>
+        <option value="gemini-3.5-flash">Gemini 3.5 Flash — newest / most capable</option>
+        <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite — fastest</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="goalInput">Daily goal (words per day)</label>
+      <input type="number" id="goalInput" min="1" max="50" value="5" />
+    </div>
+
+    <div class="field">
+      <label class="checkrow"><input type="checkbox" id="autoplayInput" /> 🔊 Auto-play pronunciation on each new card</label>
+      <div class="note">Reads cards aloud with your device's built-in English voice — free, works offline. If it sounds off, add an English voice in System Settings → Accessibility → Spoken Content / Voices.</div>
+    </div>
+
+    <div class="field">
+      <label class="checkrow"><input type="checkbox" id="sfxInput" /> 🔔 Sound effects (correct / practice / goal chimes)</label>
+    </div>
+
+    <div class="field">
+      <label>Pronunciation check</label>
+      <button class="btn" id="voiceTestBtn" type="button" style="width:auto; flex:none; min-width:0">🔈 Test voice (say "serendipity")</button>
+      <div class="note" id="voiceTestOut"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn primary" id="saveSettings">Save</button>
+      <button class="btn" id="closeSettings">Close</button>
+    </div>
+
+    <div class="field">
+      <button class="danger-btn" id="resetBtn">Reset all progress</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================ DATA: A1 German vocabulary ============================ */
+const LEVELS = ['Words','Idioms','Phrasal','Collocations'];
+const WORDS = [
+  {"de": "meticulous", "art": "", "en": "showing great attention to detail; very careful and precise", "type": "word", "ex": "Her meticulous record-keeping made the audit remarkably straightforward.", "exEn": "꼼꼼한 · positive connotation; common in professional contexts", "level": "Words"},
+  {"de": "candid", "art": "", "en": "truthful and straightforward; frank", "type": "word", "ex": "In a rare moment of candid reflection, the CEO admitted the strategy had failed.", "exEn": "솔직한 · slightly formal; implies honesty even when uncomfortable", "level": "Words"},
+  {"de": "pragmatic", "art": "", "en": "dealing with things sensibly and realistically rather than ideally", "type": "word", "ex": "We need a pragmatic solution, not a theoretically perfect one.", "exEn": "실용적인 · often contrasted with idealistic; common in business and policy", "level": "Words"},
+  {"de": "eloquent", "art": "", "en": "fluent and persuasive in speaking or writing", "type": "word", "ex": "His eloquent defense of free speech swayed even his critics.", "exEn": "웅변적인 · positive; often describes speech or argument", "level": "Words"},
+  {"de": "ambivalent", "art": "", "en": "having mixed or contradictory feelings about something", "type": "word", "ex": "She felt deeply ambivalent about accepting the promotion abroad.", "exEn": "양면적인 · often followed by 'about'; common in academic and emotional contexts", "level": "Words"},
+  {"de": "tenacious", "art": "", "en": "holding firmly to a purpose; persistent and determined", "type": "word", "ex": "Her tenacious pursuit of the truth eventually exposed the fraud.", "exEn": "끈질긴 · positive connotation; suggests admirable persistence", "level": "Words"},
+  {"de": "succinct", "art": "", "en": "expressed clearly in few words; concise", "type": "word", "ex": "The report was admirably succinct, covering everything in two pages.", "exEn": "간결한 · positive; common in writing and editing feedback", "level": "Words"},
+  {"de": "pervasive", "art": "", "en": "spreading widely throughout an area or group", "type": "word", "ex": "A pervasive sense of distrust had taken hold across the organization.", "exEn": "만연한 · often used for abstract phenomena; slightly formal", "level": "Words"},
+  {"de": "inadvertent", "art": "", "en": "not resulting from or achieved through deliberate planning", "type": "word", "ex": "The leak was inadvertent, caused by a misconfigured server.", "exEn": "의도치 않은 · formal; adverb 'inadvertently' is very common", "level": "Words"},
+  {"de": "nuanced", "art": "", "en": "characterized by subtle distinctions or variations", "type": "word", "ex": "He offered a nuanced view that resisted easy categorization.", "exEn": "미묘한 · positive; very common in academic and critical writing", "level": "Words"},
+  {"de": "gregarious", "art": "", "en": "fond of company; sociable", "type": "word", "ex": "A naturally gregarious man, he thrived at conferences and networking events.", "exEn": "사교적인 · describes personality; slightly literary", "level": "Words"},
+  {"de": "scrupulous", "art": "", "en": "diligent, thorough, and extremely attentive to detail or ethics", "type": "word", "ex": "She was scrupulous about citing every source in her dissertation.", "exEn": "양심적인 · implies moral or procedural carefulness", "level": "Words"},
+  {"de": "cogent", "art": "", "en": "clear, logical, and convincing", "type": "word", "ex": "He made a cogent argument for raising interest rates.", "exEn": "설득력 있는 · formal; common in academic and legal writing", "level": "Words"},
+  {"de": "ephemeral", "art": "", "en": "lasting for a very short time", "type": "word", "ex": "Online fame is often ephemeral, fading within weeks.", "exEn": "덧없는 · slightly literary; often figurative", "level": "Words"},
+  {"de": "ubiquitous", "art": "", "en": "present, appearing, or found everywhere", "type": "word", "ex": "Surveillance cameras have become ubiquitous in major cities.", "exEn": "어디에나 있는 · slightly formal; common in writing", "level": "Words"},
+  {"de": "innocuous", "art": "", "en": "not harmful or offensive", "type": "word", "ex": "What seemed an innocuous remark sparked a heated debate.", "exEn": "무해한 · formal; often used to contrast appearance with effect", "level": "Words"},
+  {"de": "astute", "art": "", "en": "having or showing sharp judgment; shrewd", "type": "word", "ex": "An astute investor, she sold her shares just before the crash.", "exEn": "기민한 · positive; admires perceptiveness", "level": "Words"},
+  {"de": "prudent", "art": "", "en": "acting with care and thought for the future", "type": "word", "ex": "It would be prudent to set aside savings before expanding the business.", "exEn": "신중한 · formal; common in finance and policy", "level": "Words"},
+  {"de": "verbose", "art": "", "en": "using more words than needed; wordy", "type": "word", "ex": "The contract was so verbose that few people actually read it.", "exEn": "장황한 · usually negative; the opposite of succinct", "level": "Words"},
+  {"de": "obfuscate", "art": "", "en": "to render something obscure, unclear, or unintelligible", "type": "word", "ex": "The spokesperson seemed to obfuscate rather than clarify the facts.", "exEn": "애매하게 하다 · formal; often implies deliberate concealment", "level": "Words"},
+  {"de": "esoteric", "art": "", "en": "intended for or understood by only a small, specialized group", "type": "word", "ex": "The lecture descended into esoteric debates about set theory.", "exEn": "난해한 · formal; sometimes mildly critical", "level": "Words"},
+  {"de": "juxtapose", "art": "", "en": "to place close together for contrasting effect", "type": "word", "ex": "The film juxtaposes wartime brutality with quiet domestic scenes.", "exEn": "병치하다 · common in art and literary criticism", "level": "Words"},
+  {"de": "salient", "art": "", "en": "most noticeable or important; standing out", "type": "word", "ex": "Let me summarize the salient points of the proposal.", "exEn": "두드러진 · formal; common in academic and analytical writing", "level": "Words"},
+  {"de": "tacit", "art": "", "en": "understood or implied without being stated", "type": "word", "ex": "There was a tacit agreement never to mention the incident.", "exEn": "암묵적인 · formal; often pairs with 'agreement', 'approval'", "level": "Words"},
+  {"de": "laudable", "art": "", "en": "deserving praise and commendation", "type": "word", "ex": "Their efforts to reduce emissions are laudable, if insufficient.", "exEn": "칭찬할 만한 · formal; positive but often with a caveat", "level": "Words"},
+  {"de": "intractable", "art": "", "en": "hard to control, manage, or solve", "type": "word", "ex": "Inflation proved an intractable problem for the central bank.", "exEn": "다루기 힘든 · formal; common for persistent problems", "level": "Words"},
+  {"de": "ostensible", "art": "", "en": "stated or appearing to be true, but not necessarily so", "type": "word", "ex": "The ostensible reason for the trip was business, though few believed it.", "exEn": "표면상의 · formal; often implies a hidden real motive", "level": "Words"},
+  {"de": "galvanize", "art": "", "en": "to shock or excite someone into taking action", "type": "word", "ex": "The scandal galvanized voters into demanding reform.", "exEn": "자극하다 · often figurative; positive sense of energizing", "level": "Words"},
+  {"de": "sanguine", "art": "", "en": "optimistic or positive, especially in a difficult situation", "type": "word", "ex": "Analysts remain sanguine about the company's long-term prospects.", "exEn": "낙관적인 · formal; slightly literary", "level": "Words"},
+  {"de": "circumvent", "art": "", "en": "to find a way around an obstacle or rule", "type": "word", "ex": "The firm restructured its holdings to circumvent the new tax.", "exEn": "우회하다 · formal; often implies evading rules cleverly", "level": "Words"},
+  {"de": "disparate", "art": "", "en": "essentially different in kind; not comparable", "type": "word", "ex": "The study brings together disparate strands of research.", "exEn": "이질적인 · formal; common in academic writing", "level": "Words"},
+  {"de": "conflate", "art": "", "en": "to combine two or more distinct things into one, often mistakenly", "type": "word", "ex": "Critics conflate correlation with causation far too often.", "exEn": "혼동하다 · formal; common in academic critique", "level": "Words"},
+  {"de": "redundant", "art": "", "en": "no longer needed or useful; superfluous", "type": "word", "ex": "The second paragraph is redundant and should be cut.", "exEn": "불필요한 · common; in British English also means 'laid off'", "level": "Words"},
+  {"de": "emulate", "art": "", "en": "to imitate, especially in order to match or surpass", "type": "word", "ex": "Young entrepreneurs often try to emulate successful founders.", "exEn": "모방하다 · slightly formal; positive connotation", "level": "Words"},
+  {"de": "vindicate", "art": "", "en": "to clear of blame or prove right", "type": "word", "ex": "The new evidence finally vindicated his earlier claims.", "exEn": "정당성을 입증하다 · formal; often after doubt or accusation", "level": "Words"},
+  {"de": "copious", "art": "", "en": "abundant in supply or quantity", "type": "word", "ex": "She took copious notes throughout the seminar.", "exEn": "풍부한 · formal; often pairs with 'notes', 'amounts'", "level": "Words"},
+  {"de": "benign", "art": "", "en": "gentle, harmless, or not threatening", "type": "word", "ex": "The committee took a surprisingly benign view of the breach.", "exEn": "온화한 · formal; also medical (non-cancerous)", "level": "Words"},
+  {"de": "discern", "art": "", "en": "to perceive or recognize something, often with effort", "type": "word", "ex": "It was hard to discern any clear pattern in the data.", "exEn": "식별하다 · formal; common in analytical writing", "level": "Words"},
+  {"de": "reticent", "art": "", "en": "reserved; reluctant to speak freely", "type": "word", "ex": "He was reticent about his plans, offering only vague hints.", "exEn": "과묵한 · formal; describes restrained communication", "level": "Words"},
+  {"de": "placate", "art": "", "en": "to make someone less angry or hostile; appease", "type": "word", "ex": "The apology did little to placate the frustrated customers.", "exEn": "달래다 · formal; common in conflict contexts", "level": "Words"},
+  {"de": "acumen", "art": "", "en": "keen insight and good judgment, especially in a field", "type": "word", "ex": "Her business acumen turned a small shop into a chain.", "exEn": "통찰력 · formal; often 'business/political acumen'", "level": "Words"},
+  {"de": "propensity", "art": "", "en": "a natural tendency to behave in a particular way", "type": "word", "ex": "He has a propensity for taking unnecessary risks.", "exEn": "성향 · formal; often followed by 'for' or 'to'", "level": "Words"},
+  {"de": "vehement", "art": "", "en": "showing strong, forceful feeling or conviction", "type": "word", "ex": "She offered a vehement denial of all the allegations.", "exEn": "격렬한 · formal; intensity of emotion or opinion", "level": "Words"},
+  {"de": "culminate", "art": "", "en": "to reach a climax or final decisive point", "type": "word", "ex": "Years of negotiation culminated in a historic treaty.", "exEn": "정점에 이르다 · formal; often 'culminate in'", "level": "Words"},
+  {"de": "impervious", "art": "", "en": "unable to be affected or penetrated", "type": "word", "ex": "He seemed impervious to criticism, however harsh.", "exEn": "영향받지 않는 · formal; often figurative, 'impervious to'", "level": "Words"},
+  {"de": "mitigate", "art": "", "en": "to make less severe, serious, or painful", "type": "word", "ex": "Planting trees can mitigate the effects of urban heat.", "exEn": "완화하다 · formal; common in policy and science", "level": "Words"},
+  {"de": "prolific", "art": "", "en": "producing many works, results, or offspring", "type": "word", "ex": "A prolific author, she published thirty novels in two decades.", "exEn": "다작의 · positive; often describes creative output", "level": "Words"},
+  {"de": "spurious", "art": "", "en": "not genuine, authentic, or true; false", "type": "word", "ex": "The argument relied on a spurious correlation between the variables.", "exEn": "가짜의 · formal; common in statistics and logic", "level": "Words"},
+  {"de": "austere", "art": "", "en": "severe or plain in manner or appearance; without comfort", "type": "word", "ex": "The monastery's austere rooms held only a bed and a desk.", "exEn": "엄격한 · formal; also describes economic 'austerity'", "level": "Words"},
+  {"de": "garner", "art": "", "en": "to gather or acquire, often gradually", "type": "word", "ex": "The film garnered widespread critical acclaim.", "exEn": "얻다 · formal; often 'garner support/praise'", "level": "Words"},
+  {"de": "precarious", "art": "", "en": "dangerously uncertain or insecure; unstable", "type": "word", "ex": "Many workers live in a precarious financial situation.", "exEn": "불안정한 · formal; physical or figurative instability", "level": "Words"},
+  {"de": "insidious", "art": "", "en": "proceeding gradually and harmfully in a hidden way", "type": "word", "ex": "Corruption spread in an insidious, almost invisible manner.", "exEn": "음흉한 · formal; negative; gradual harm", "level": "Words"},
+  {"de": "cursory", "art": "", "en": "hasty and superficial; lacking thoroughness", "type": "word", "ex": "A cursory glance at the figures revealed several errors.", "exEn": "대충하는 · formal; usually mildly critical", "level": "Words"},
+  {"de": "alleviate", "art": "", "en": "to make a problem or suffering less severe", "type": "word", "ex": "The new policy aims to alleviate childhood poverty.", "exEn": "경감하다 · formal; common in medical and policy contexts", "level": "Words"},
+  {"de": "superfluous", "art": "", "en": "more than is needed or useful; unnecessary", "type": "word", "ex": "Edit out any superfluous adjectives to tighten the prose.", "exEn": "과잉의 · formal; the opposite of essential", "level": "Words"},
+  {"de": "quintessential", "art": "", "en": "representing the most perfect example of a quality or type", "type": "word", "ex": "He is the quintessential self-made entrepreneur.", "exEn": "전형적인 · formal; strongly positive or definitive", "level": "Words"},
+  {"de": "tantamount", "art": "", "en": "equivalent in seriousness or effect to something", "type": "word", "ex": "His silence was tantamount to an admission of guilt.", "exEn": "~에 맞먹는 · formal; always 'tantamount to'", "level": "Words"},
+  {"de": "equivocal", "art": "", "en": "open to more than one interpretation; ambiguous", "type": "word", "ex": "The test results were equivocal and required further study.", "exEn": "모호한 · formal; common in science and law", "level": "Words"},
+  {"de": "paramount", "art": "", "en": "more important than anything else; supreme", "type": "word", "ex": "Public safety must be of paramount concern.", "exEn": "가장 중요한 · formal; often 'of paramount importance'", "level": "Words"},
+  {"de": "assuage", "art": "", "en": "to ease or lessen an unpleasant feeling", "type": "word", "ex": "Nothing the manager said could assuage their fears.", "exEn": "누그러뜨리다 · formal; slightly literary; common with fears/guilt", "level": "Words"},
+  {"de": "bite the bullet", "art": "", "en": "to force yourself to do something difficult or unpleasant that you've been avoiding", "type": "idiom", "ex": "I hate going to the dentist, but I finally bit the bullet and booked an appointment.", "exEn": "이를 악물고 (어려운 일을) 하다 · neutral; very common", "level": "Idioms"},
+  {"de": "cut to the chase", "art": "", "en": "to get to the main point without wasting time on details", "type": "idiom", "ex": "We don't have much time, so let me cut to the chase: we're over budget.", "exEn": "본론으로 바로 들어가다 · neutral; common in meetings", "level": "Idioms"},
+  {"de": "get cold feet", "art": "", "en": "to suddenly become nervous and unsure about doing something planned", "type": "idiom", "ex": "He got cold feet the night before the wedding, but he went through with it.", "exEn": "막판에 겁이 나서 망설이다 · informal; very common", "level": "Idioms"},
+  {"de": "a blessing in disguise", "art": "", "en": "something that seems bad at first but turns out to be good", "type": "idiom", "ex": "Losing that job was a blessing in disguise — it pushed me to start my own business.", "exEn": "전화위복 · neutral; very common", "level": "Idioms"},
+  {"de": "on the fence", "art": "", "en": "undecided between two options", "type": "idiom", "ex": "I'm still on the fence about whether to take the offer.", "exEn": "결정을 못 내리고 있는 · neutral; very common", "level": "Idioms"},
+  {"de": "hit the nail on the head", "art": "", "en": "to describe exactly what is causing a situation or problem", "type": "idiom", "ex": "You hit the nail on the head — the real issue is poor communication.", "exEn": "정곡을 찌르다 · neutral; very common", "level": "Idioms"},
+  {"de": "beat around the bush", "art": "", "en": "to avoid saying something directly", "type": "idiom", "ex": "Stop beating around the bush and just tell me what happened.", "exEn": "빙빙 돌려 말하다 · informal; very common", "level": "Idioms"},
+  {"de": "the best of both worlds", "art": "", "en": "a situation where you enjoy the advantages of two different things at once", "type": "idiom", "ex": "Working from home two days a week gives me the best of both worlds.", "exEn": "양쪽의 장점을 모두 누리는 것 · neutral; very common", "level": "Idioms"},
+  {"de": "take it with a grain of salt", "art": "", "en": "to not completely believe something; to be skeptical", "type": "idiom", "ex": "He tends to exaggerate, so take what he says with a grain of salt.", "exEn": "걸러서 듣다 · neutral; very common", "level": "Idioms"},
+  {"de": "call it a day", "art": "", "en": "to decide to stop working on something for now", "type": "idiom", "ex": "We've been at this for hours — let's call it a day.", "exEn": "오늘은 이만하다 · informal; very common", "level": "Idioms"},
+  {"de": "under the weather", "art": "", "en": "feeling slightly ill", "type": "idiom", "ex": "I'm feeling a bit under the weather, so I might stay home today.", "exEn": "몸이 좀 안 좋은 · informal; common, slightly soft/polite", "level": "Idioms"},
+  {"de": "a piece of cake", "art": "", "en": "something very easy to do", "type": "idiom", "ex": "The exam was a piece of cake — I finished in twenty minutes.", "exEn": "식은 죽 먹기 · informal; very common", "level": "Idioms"},
+  {"de": "break the ice", "art": "", "en": "to do or say something to relieve tension in a social situation", "type": "idiom", "ex": "He told a joke to break the ice at the start of the meeting.", "exEn": "어색한 분위기를 깨다 · neutral; very common", "level": "Idioms"},
+  {"de": "pull someone's leg", "art": "", "en": "to tease someone by telling them something untrue as a joke", "type": "idiom", "ex": "Relax, I'm just pulling your leg — you didn't really fail.", "exEn": "놀리다, 농담하다 · informal; spoken", "level": "Idioms"},
+  {"de": "once in a blue moon", "art": "", "en": "very rarely", "type": "idiom", "ex": "We only go out for a fancy dinner once in a blue moon.", "exEn": "아주 가끔 · neutral; very common", "level": "Idioms"},
+  {"de": "the ball is in your court", "art": "", "en": "it's now your turn to make a decision or take action", "type": "idiom", "ex": "I've made my offer, so the ball is in your court now.", "exEn": "이제 네가 결정할 차례다 · neutral; common", "level": "Idioms"},
+  {"de": "cost an arm and a leg", "art": "", "en": "to be very expensive", "type": "idiom", "ex": "That new phone costs an arm and a leg.", "exEn": "엄청 비싸다 · informal; very common", "level": "Idioms"},
+  {"de": "speak of the devil", "art": "", "en": "said when a person you were just talking about appears", "type": "idiom", "ex": "Speak of the devil — we were just talking about you!", "exEn": "호랑이도 제 말 하면 온다 · informal; spoken; very common", "level": "Idioms"},
+  {"de": "jump on the bandwagon", "art": "", "en": "to join an activity or trend because it has become popular", "type": "idiom", "ex": "Once the show got popular, everyone jumped on the bandwagon.", "exEn": "유행에 편승하다 · neutral; slightly negative", "level": "Idioms"},
+  {"de": "the tip of the iceberg", "art": "", "en": "a small, visible part of a much larger problem", "type": "idiom", "ex": "These complaints are just the tip of the iceberg.", "exEn": "빙산의 일각 · neutral; very common", "level": "Idioms"},
+  {"de": "barking up the wrong tree", "art": "", "en": "to pursue a mistaken or misguided line of thought or action", "type": "idiom", "ex": "If you think I broke it, you're barking up the wrong tree.", "exEn": "헛다리를 짚다 · informal; common", "level": "Idioms"},
+  {"de": "let the cat out of the bag", "art": "", "en": "to reveal a secret, often accidentally", "type": "idiom", "ex": "It was supposed to be a surprise, but Tom let the cat out of the bag.", "exEn": "비밀을 무심코 누설하다 · informal; common", "level": "Idioms"},
+  {"de": "a ballpark figure", "art": "", "en": "a rough estimate", "type": "idiom", "ex": "Can you give me a ballpark figure for how much the repairs will cost?", "exEn": "대략적인 추정치 · neutral; common in business", "level": "Idioms"},
+  {"de": "go the extra mile", "art": "", "en": "to make more effort than is expected", "type": "idiom", "ex": "She always goes the extra mile for her clients.", "exEn": "한층 더 노력하다 · neutral; very common", "level": "Idioms"},
+  {"de": "in a nutshell", "art": "", "en": "in a few words; summarized briefly", "type": "idiom", "ex": "In a nutshell, the project failed because we ran out of time.", "exEn": "한마디로 요약하면 · neutral; very common", "level": "Idioms"},
+  {"de": "miss the boat", "art": "", "en": "to miss an opportunity by being too slow to act", "type": "idiom", "ex": "If you don't apply soon, you'll miss the boat.", "exEn": "기회를 놓치다 · informal; common", "level": "Idioms"},
+  {"de": "sit on the fence", "art": "", "en": "to avoid making a decision or taking sides", "type": "idiom", "ex": "You can't sit on the fence forever — you have to choose.", "exEn": "중립을 지키며 결정을 미루다 · neutral; common", "level": "Idioms"},
+  {"de": "the last straw", "art": "", "en": "the final problem in a series that makes a situation unbearable", "type": "idiom", "ex": "He was always late, but missing the deadline was the last straw.", "exEn": "인내의 한계를 넘게 한 마지막 일 · neutral; very common", "level": "Idioms"},
+  {"de": "throw in the towel", "art": "", "en": "to give up; to admit defeat", "type": "idiom", "ex": "After months of trying, they finally threw in the towel.", "exEn": "포기하다 · informal; common", "level": "Idioms"},
+  {"de": "burn the midnight oil", "art": "", "en": "to work or study late into the night", "type": "idiom", "ex": "I had to burn the midnight oil to finish the report on time.", "exEn": "밤늦게까지 공부/일하다 · neutral; slightly formal/literary but common", "level": "Idioms"},
+  {"de": "on the same page", "art": "", "en": "in agreement or sharing the same understanding", "type": "idiom", "ex": "Let's have a quick call to make sure we're all on the same page.", "exEn": "같은 생각/이해를 하고 있는 · neutral; very common in work", "level": "Idioms"},
+  {"de": "a long shot", "art": "", "en": "something unlikely to succeed but worth trying", "type": "idiom", "ex": "It's a long shot, but I'm going to apply for the scholarship anyway.", "exEn": "가능성이 희박한 시도 · neutral; common", "level": "Idioms"},
+  {"de": "play it by ear", "art": "", "en": "to decide how to handle a situation as it develops, without a plan", "type": "idiom", "ex": "We don't have a fixed schedule — we'll just play it by ear.", "exEn": "상황 봐 가면서 하다 · informal; very common", "level": "Idioms"},
+  {"de": "hit the sack", "art": "", "en": "to go to bed", "type": "idiom", "ex": "I'm exhausted — I'm going to hit the sack.", "exEn": "자러 가다 · informal; spoken", "level": "Idioms"},
+  {"de": "get out of hand", "art": "", "en": "to become difficult or impossible to control", "type": "idiom", "ex": "The party got out of hand and the neighbors called the police.", "exEn": "걷잡을 수 없게 되다 · neutral; very common", "level": "Idioms"},
+  {"de": "cut corners", "art": "", "en": "to do something cheaply or quickly by skipping proper steps", "type": "idiom", "ex": "They cut corners on safety, and it ended up costing them.", "exEn": "대충대충 하다, 편법을 쓰다 · neutral; slightly negative; common", "level": "Idioms"},
+  {"de": "a wake-up call", "art": "", "en": "an event that forces someone to realize a problem and act", "type": "idiom", "ex": "His heart attack was a real wake-up call to start exercising.", "exEn": "경각심을 일깨우는 계기 · neutral; common", "level": "Idioms"},
+  {"de": "face the music", "art": "", "en": "to accept the unpleasant consequences of your actions", "type": "idiom", "ex": "He cheated on the test and now he has to face the music.", "exEn": "닥친 결과를 책임지고 받아들이다 · neutral; common", "level": "Idioms"},
+  {"de": "the bottom line", "art": "", "en": "the most important fact or final conclusion", "type": "idiom", "ex": "The bottom line is we can't afford it right now.", "exEn": "결론은, 핵심은 · neutral; very common in business", "level": "Idioms"},
+  {"de": "steal someone's thunder", "art": "", "en": "to take attention or credit away from someone", "type": "idiom", "ex": "She announced her engagement at my party and totally stole my thunder.", "exEn": "남의 공/주목을 가로채다 · neutral; common", "level": "Idioms"},
+  {"de": "a dime a dozen", "art": "", "en": "very common and of little value", "type": "idiom", "ex": "Apps like that are a dime a dozen these days.", "exEn": "흔해 빠진 · informal; common (esp. American)", "level": "Idioms"},
+  {"de": "go down the rabbit hole", "art": "", "en": "to get drawn into something complicated and absorbing, often losing track of time", "type": "idiom", "ex": "I went down a rabbit hole reading about deep-sea creatures last night.", "exEn": "빠져들어 헤어나오지 못하다 · informal; increasingly common", "level": "Idioms"},
+  {"de": "ring a bell", "art": "", "en": "to sound familiar; to remind you of something", "type": "idiom", "ex": "That name rings a bell, but I can't remember where I've heard it.", "exEn": "어디서 들어본 것 같다 · informal; very common", "level": "Idioms"},
+  {"de": "wrap your head around something", "art": "", "en": "to manage to understand something difficult or strange", "type": "idiom", "ex": "I still can't wrap my head around how the trick works.", "exEn": "이해하려 애쓰다, 머리로 받아들이다 · informal; very common", "level": "Idioms"},
+  {"de": "bend over backwards", "art": "", "en": "to try very hard to help or please someone", "type": "idiom", "ex": "They bent over backwards to make us feel welcome.", "exEn": "갖은 애를 다 쓰다 · neutral; common", "level": "Idioms"},
+  {"de": "the elephant in the room", "art": "", "en": "an obvious problem or awkward issue that everyone avoids mentioning", "type": "idiom", "ex": "Nobody wanted to bring up the layoffs — the elephant in the room.", "exEn": "모두 알지만 말하지 않는 문제 · neutral; very common", "level": "Idioms"},
+  {"de": "jump the gun", "art": "", "en": "to act too soon, before the right time", "type": "idiom", "ex": "Don't jump the gun — we haven't even signed the contract yet.", "exEn": "성급하게 굴다 · informal; common", "level": "Idioms"},
+  {"de": "keep your chin up", "art": "", "en": "to stay cheerful and brave in a difficult situation", "type": "idiom", "ex": "I know it's tough right now, but keep your chin up.", "exEn": "기운 내, 힘내 · informal; spoken; encouraging", "level": "Idioms"},
+  {"de": "a storm in a teacup", "art": "", "en": "a lot of fuss over something trivial", "type": "idiom", "ex": "The whole argument was a storm in a teacup — they made up an hour later.", "exEn": "별것 아닌 일로 큰 소동 · neutral; more common in British English", "level": "Idioms"},
+  {"de": "read between the lines", "art": "", "en": "to understand a hidden or implied meaning", "type": "idiom", "ex": "He didn't say no directly, but reading between the lines, he wasn't interested.", "exEn": "행간을 읽다 · neutral; very common", "level": "Idioms"},
+  {"de": "the whole nine yards", "art": "", "en": "everything; the full extent of something", "type": "idiom", "ex": "For her birthday they did the whole nine yards — balloons, cake, a live band.", "exEn": "있는 거 전부 다 · informal; common (esp. American)", "level": "Idioms"},
+  {"de": "a piece of the pie", "art": "", "en": "a share of something valuable, such as profit or benefit", "type": "idiom", "ex": "Everyone on the team wanted a piece of the pie.", "exEn": "이익의 한 몫 · informal; common", "level": "Idioms"},
+  {"de": "throw someone under the bus", "art": "", "en": "to betray or blame someone to protect yourself", "type": "idiom", "ex": "He threw his own assistant under the bus to save his job.", "exEn": "제 살자고 남을 희생시키다 · informal; common", "level": "Idioms"},
+  {"de": "back to square one", "art": "", "en": "back to the starting point with no progress made", "type": "idiom", "ex": "The deal fell through, so we're back to square one.", "exEn": "원점으로 돌아가다 · neutral; very common", "level": "Idioms"},
+  {"de": "cross that bridge when you come to it", "art": "", "en": "to deal with a problem only when it actually arises", "type": "idiom", "ex": "We might run out of money, but we'll cross that bridge when we come to it.", "exEn": "닥치면 그때 해결하다 · informal; common", "level": "Idioms"},
+  {"de": "a slap on the wrist", "art": "", "en": "a punishment that is much milder than deserved", "type": "idiom", "ex": "He cheated and only got a slap on the wrist.", "exEn": "솜방망이 처벌 · neutral; common", "level": "Idioms"},
+  {"de": "carry out", "art": "", "en": "to perform or complete a task, plan, or order", "type": "phrasal", "ex": "The team carried out a series of experiments to test the theory.", "exEn": "수행하다, 실행하다 · separable", "level": "Phrasal"},
+  {"de": "point out", "art": "", "en": "to draw attention to a fact or detail; to indicate something", "type": "phrasal", "ex": "She pointed out that the data didn't support his conclusion.", "exEn": "지적하다, 짚어주다 · separable", "level": "Phrasal"},
+  {"de": "bring up", "art": "", "en": "to mention or introduce a topic; also: to raise a child", "type": "phrasal", "ex": "He brought up the budget issue during the meeting.", "exEn": "(화제를) 꺼내다; (아이를) 키우다 · separable", "level": "Phrasal"},
+  {"de": "come across", "art": "", "en": "to find or encounter something by chance; also: to give a particular impression", "type": "phrasal", "ex": "I came across an old photo while cleaning the attic.", "exEn": "우연히 마주치다; ~한 인상을 주다 · inseparable", "level": "Phrasal"},
+  {"de": "get away with", "art": "", "en": "to escape blame or punishment for something wrong", "type": "phrasal", "ex": "He cheated on the test and somehow got away with it.", "exEn": "(처벌·비난 없이) 무사히 넘어가다 · inseparable; three-part", "level": "Phrasal"},
+  {"de": "look into", "art": "", "en": "to investigate or examine something", "type": "phrasal", "ex": "The committee promised to look into the complaint.", "exEn": "조사하다, 알아보다 · inseparable", "level": "Phrasal"},
+  {"de": "take on", "art": "", "en": "to accept or undertake a responsibility; also: to hire someone", "type": "phrasal", "ex": "She took on far too much work this semester.", "exEn": "(일을) 떠맡다; 고용하다 · separable", "level": "Phrasal"},
+  {"de": "sort out", "art": "", "en": "to resolve a problem or organize something messy", "type": "phrasal", "ex": "We need to sort out these accounts before the audit.", "exEn": "해결하다, 정리하다 · separable; informal (BrE)", "level": "Phrasal"},
+  {"de": "put up with", "art": "", "en": "to tolerate something or someone unpleasant", "type": "phrasal", "ex": "I can't put up with his constant complaining anymore.", "exEn": "참다, 견디다 · inseparable; three-part", "level": "Phrasal"},
+  {"de": "run into", "art": "", "en": "to meet someone unexpectedly; also: to encounter a problem", "type": "phrasal", "ex": "I ran into an old colleague at the conference.", "exEn": "우연히 만나다; (문제에) 부딪히다 · inseparable", "level": "Phrasal"},
+  {"de": "figure out", "art": "", "en": "to understand or solve something after thought", "type": "phrasal", "ex": "It took me hours to figure out how the software worked.", "exEn": "알아내다, 이해하다 · separable", "level": "Phrasal"},
+  {"de": "turn down", "art": "", "en": "to reject or refuse an offer; also: to lower volume/intensity", "type": "phrasal", "ex": "She turned down the job offer despite the high salary.", "exEn": "거절하다; (소리를) 줄이다 · separable", "level": "Phrasal"},
+  {"de": "call off", "art": "", "en": "to cancel a planned event or activity", "type": "phrasal", "ex": "They called off the wedding at the last minute.", "exEn": "취소하다 · separable", "level": "Phrasal"},
+  {"de": "bring about", "art": "", "en": "to cause something to happen", "type": "phrasal", "ex": "The reforms brought about significant economic change.", "exEn": "야기하다, 초래하다 · separable but rarely split", "level": "Phrasal"},
+  {"de": "draw on", "art": "", "en": "to use a resource, experience, or knowledge", "type": "phrasal", "ex": "The novelist drew on her childhood memories for the story.", "exEn": "(자원·경험을) 활용하다 · inseparable", "level": "Phrasal"},
+  {"de": "set out", "art": "", "en": "to begin a task with a clear aim; also: to present or explain in detail", "type": "phrasal", "ex": "He set out to prove the hypothesis wrong.", "exEn": "착수하다; (계획을) 제시하다 · inseparable (in this sense)", "level": "Phrasal"},
+  {"de": "account for", "art": "", "en": "to explain or be the cause of something; also: to make up a proportion", "type": "phrasal", "ex": "Exports account for nearly half of the country's revenue.", "exEn": "설명하다; (비율을) 차지하다 · inseparable", "level": "Phrasal"},
+  {"de": "come up with", "art": "", "en": "to produce or think of an idea, plan, or solution", "type": "phrasal", "ex": "She came up with a brilliant solution to the problem.", "exEn": "생각해내다, 제시하다 · inseparable; three-part", "level": "Phrasal"},
+  {"de": "rule out", "art": "", "en": "to eliminate something as a possibility", "type": "phrasal", "ex": "Investigators have not ruled out foul play.", "exEn": "배제하다 · separable", "level": "Phrasal"},
+  {"de": "weigh up", "art": "", "en": "to carefully consider the pros and cons before deciding", "type": "phrasal", "ex": "You should weigh up the risks before investing.", "exEn": "저울질하다, 따져보다 · separable; BrE", "level": "Phrasal"},
+  {"de": "back up", "art": "", "en": "to support a claim or person; also: to make a copy of data", "type": "phrasal", "ex": "The evidence backs up her version of events.", "exEn": "뒷받침하다; (데이터를) 백업하다 · separable", "level": "Phrasal"},
+  {"de": "break down", "art": "", "en": "to stop functioning; also: to analyze something into parts", "type": "phrasal", "ex": "Let me break down the costs for you.", "exEn": "고장 나다; 세분화하다 · separable (in 'analyze' sense)", "level": "Phrasal"},
+  {"de": "hold back", "art": "", "en": "to restrain or prevent progress; also: to withhold information", "type": "phrasal", "ex": "Fear of failure held her back from applying.", "exEn": "저지하다; (정보를) 감추다 · separable", "level": "Phrasal"},
+  {"de": "single out", "art": "", "en": "to choose or treat one person or thing distinctly from a group", "type": "phrasal", "ex": "The report singled out three banks for criticism.", "exEn": "(콕 집어) 선별하다, 지목하다 · separable", "level": "Phrasal"},
+  {"de": "phase out", "art": "", "en": "to gradually discontinue or remove something", "type": "phrasal", "ex": "The government plans to phase out coal subsidies by 2030.", "exEn": "단계적으로 폐지하다 · separable", "level": "Phrasal"},
+  {"de": "step down", "art": "", "en": "to resign from a position of authority", "type": "phrasal", "ex": "The CEO stepped down after the scandal.", "exEn": "사임하다, 물러나다 · inseparable", "level": "Phrasal"},
+  {"de": "come down to", "art": "", "en": "to be ultimately determined by a key factor", "type": "phrasal", "ex": "In the end, it all comes down to money.", "exEn": "결국 ~에 달려 있다 · inseparable; three-part", "level": "Phrasal"},
+  {"de": "iron out", "art": "", "en": "to resolve minor difficulties or disagreements", "type": "phrasal", "ex": "We still need to iron out a few details in the contract.", "exEn": "(문제를) 매끄럽게 해결하다 · separable; informal", "level": "Phrasal"},
+  {"de": "pull off", "art": "", "en": "to succeed in doing something difficult", "type": "phrasal", "ex": "Against all odds, they pulled off the deal.", "exEn": "(어려운 일을) 해내다 · separable; informal", "level": "Phrasal"},
+  {"de": "fall through", "art": "", "en": "to fail to be completed; to collapse (of a plan or deal)", "type": "phrasal", "ex": "The merger fell through at the last moment.", "exEn": "무산되다, 수포로 돌아가다 · inseparable", "level": "Phrasal"},
+  {"de": "map out", "art": "", "en": "to plan something in careful detail", "type": "phrasal", "ex": "She mapped out her entire career path in advance.", "exEn": "세밀하게 계획하다 · separable", "level": "Phrasal"},
+  {"de": "touch on", "art": "", "en": "to mention or deal with a subject briefly", "type": "phrasal", "ex": "The lecture only touched on the financial crisis.", "exEn": "간략히 다루다, 언급하다 · inseparable", "level": "Phrasal"},
+  {"de": "narrow down", "art": "", "en": "to reduce the number of options or possibilities", "type": "phrasal", "ex": "We narrowed down the candidates to just three.", "exEn": "좁히다, 추려내다 · separable", "level": "Phrasal"},
+  {"de": "stem from", "art": "", "en": "to originate or result from something", "type": "phrasal", "ex": "Many of his problems stem from a lack of sleep.", "exEn": "~에서 비롯되다 · inseparable", "level": "Phrasal"},
+  {"de": "build on", "art": "", "en": "to use something as a foundation for further development", "type": "phrasal", "ex": "This study builds on earlier research in the field.", "exEn": "~을 토대로 발전시키다 · inseparable", "level": "Phrasal"},
+  {"de": "wear off", "art": "", "en": "to gradually disappear or lose effect", "type": "phrasal", "ex": "The painkillers started to wear off after a few hours.", "exEn": "(효과가) 서서히 사라지다 · inseparable", "level": "Phrasal"},
+  {"de": "crack down on", "art": "", "en": "to take strict action against something", "type": "phrasal", "ex": "Authorities are cracking down on tax evasion.", "exEn": "엄중 단속하다 · inseparable; three-part", "level": "Phrasal"},
+  {"de": "opt for", "art": "", "en": "to choose one option in preference to another", "type": "phrasal", "ex": "Most students opted for the online course.", "exEn": "~을 택하다 · inseparable", "level": "Phrasal"},
+  {"de": "do away with", "art": "", "en": "to abolish or get rid of something", "type": "phrasal", "ex": "The new law did away with outdated restrictions.", "exEn": "없애다, 폐지하다 · inseparable; three-part", "level": "Phrasal"},
+  {"de": "give in", "art": "", "en": "to yield or surrender, especially after resistance", "type": "phrasal", "ex": "After hours of debate, he finally gave in.", "exEn": "굴복하다, 항복하다 · inseparable", "level": "Phrasal"},
+  {"de": "bank on", "art": "", "en": "to rely on something happening with confidence", "type": "phrasal", "ex": "Don't bank on the weather staying this good.", "exEn": "~을 믿고 기대하다 · inseparable; informal", "level": "Phrasal"},
+  {"de": "hinge on", "art": "", "en": "to depend entirely on a particular factor", "type": "phrasal", "ex": "The whole project hinges on securing funding.", "exEn": "~에 전적으로 달려 있다 · inseparable", "level": "Phrasal"},
+  {"de": "factor in", "art": "", "en": "to include something as a consideration in a calculation or decision", "type": "phrasal", "ex": "You have to factor in inflation when forecasting growth.", "exEn": "고려에 넣다, 감안하다 · separable", "level": "Phrasal"},
+  {"de": "shrug off", "art": "", "en": "to dismiss something as unimportant", "type": "phrasal", "ex": "She shrugged off the criticism and carried on.", "exEn": "대수롭지 않게 넘기다 · separable", "level": "Phrasal"},
+  {"de": "zero in on", "art": "", "en": "to focus attention directly on something", "type": "phrasal", "ex": "The analysis zeroed in on the housing market.", "exEn": "~에 집중하다, 정조준하다 · inseparable; three-part", "level": "Phrasal"},
+  {"de": "draw a distinction", "art": "", "en": "to point out the difference between two things", "type": "collocation", "ex": "We must draw a distinction between correlation and causation.", "exEn": "구분을 짓다 · formal/academic", "level": "Collocations"},
+  {"de": "bear in mind", "art": "", "en": "to remember and consider something when making a decision", "type": "collocation", "ex": "Bear in mind that the data only covers a single decade.", "exEn": "염두에 두다 · neutral; very common", "level": "Collocations"},
+  {"de": "a sweeping generalization", "art": "", "en": "a broad statement that ignores exceptions and nuance", "type": "collocation", "ex": "To say all economists agree is a sweeping generalization.", "exEn": "성급한 일반화 · often critical", "level": "Collocations"},
+  {"de": "vested interest", "art": "", "en": "a personal stake in something that may bias one's view", "type": "collocation", "ex": "Banks have a vested interest in keeping interest rates low.", "exEn": "기득권/이해관계 · formal; often political", "level": "Collocations"},
+  {"de": "raise concerns", "art": "", "en": "to express worry about a potential problem", "type": "collocation", "ex": "Several economists raised concerns about rising household debt.", "exEn": "우려를 제기하다 · formal/academic", "level": "Collocations"},
+  {"de": "common ground", "art": "", "en": "shared opinions or interests that allow agreement", "type": "collocation", "ex": "The two sides eventually found common ground on tax reform.", "exEn": "공통분모/접점 · common in discussion", "level": "Collocations"},
+  {"de": "a compelling argument", "art": "", "en": "a persuasive, convincing line of reasoning", "type": "collocation", "ex": "She made a compelling argument for raising the minimum wage.", "exEn": "설득력 있는 논거 · formal/academic", "level": "Collocations"},
+  {"de": "meet a deadline", "art": "", "en": "to finish something by the required time", "type": "collocation", "ex": "The team worked overnight to meet the deadline.", "exEn": "마감을 지키다 · neutral; professional", "level": "Collocations"},
+  {"de": "broadly speaking", "art": "", "en": "used to make a general statement without exact detail", "type": "collocation", "ex": "Broadly speaking, inflation erodes the value of savings.", "exEn": "대체로 말하면 · discourse marker", "level": "Collocations"},
+  {"de": "to a certain extent", "art": "", "en": "partly but not completely true", "type": "collocation", "ex": "To a certain extent, the policy succeeded in curbing speculation.", "exEn": "어느 정도까지는 · hedging; common in essays", "level": "Collocations"},
+  {"de": "shed light on", "art": "", "en": "to make something clearer or easier to understand", "type": "collocation", "ex": "The new study sheds light on why housing prices diverged.", "exEn": "해명하다/규명하다 · formal/academic", "level": "Collocations"},
+  {"de": "a viable alternative", "art": "", "en": "an option that can realistically work", "type": "collocation", "ex": "Renting may be a viable alternative to buying in overheated markets.", "exEn": "현실적 대안 · formal; professional", "level": "Collocations"},
+  {"de": "play a pivotal role", "art": "", "en": "to be crucially important in something", "type": "collocation", "ex": "Central banks play a pivotal role in stabilizing inflation.", "exEn": "중추적 역할을 하다 · formal/academic", "level": "Collocations"},
+  {"de": "pose a threat", "art": "", "en": "to be a possible source of danger or harm", "type": "collocation", "ex": "Soaring debt poses a threat to long-term growth.", "exEn": "위협이 되다 · formal", "level": "Collocations"},
+  {"de": "strike a balance", "art": "", "en": "to find a reasonable middle point between two things", "type": "collocation", "ex": "Policymakers must strike a balance between growth and stability.", "exEn": "균형을 잡다 · neutral; common", "level": "Collocations"},
+  {"de": "a marked increase", "art": "", "en": "a clear, noticeable rise", "type": "collocation", "ex": "There was a marked increase in rents after the policy change.", "exEn": "뚜렷한 증가 · formal/academic", "level": "Collocations"},
+  {"de": "take into account", "art": "", "en": "to consider something when judging or deciding", "type": "collocation", "ex": "The model takes seasonal effects into account.", "exEn": "고려하다 · neutral; very common", "level": "Collocations"},
+  {"de": "a far-reaching impact", "art": "", "en": "an effect that influences many areas widely", "type": "collocation", "ex": "The reform had a far-reaching impact on the labor market.", "exEn": "광범위한 영향 · formal", "level": "Collocations"},
+  {"de": "give rise to", "art": "", "en": "to cause something to happen or exist", "type": "collocation", "ex": "Cheap credit gave rise to a property bubble.", "exEn": "야기하다 · formal/academic", "level": "Collocations"},
+  {"de": "a vicious cycle", "art": "", "en": "a bad situation where each problem worsens the next", "type": "collocation", "ex": "Falling prices and falling demand created a vicious cycle.", "exEn": "악순환 · neutral; common", "level": "Collocations"},
+  {"de": "weigh the pros and cons", "art": "", "en": "to consider advantages and disadvantages", "type": "collocation", "ex": "Investors should weigh the pros and cons before buying.", "exEn": "장단점을 따지다 · neutral; common", "level": "Collocations"},
+  {"de": "a fundamental shift", "art": "", "en": "a deep, basic change in how something works", "type": "collocation", "ex": "Remote work marked a fundamental shift in city demand.", "exEn": "근본적 변화 · formal/academic", "level": "Collocations"},
+  {"de": "call into question", "art": "", "en": "to make people doubt whether something is true or valid", "type": "collocation", "ex": "The findings call into question the standard model.", "exEn": "의문을 제기하다 · formal/academic", "level": "Collocations"},
+  {"de": "a contributing factor", "art": "", "en": "one of several causes of a result", "type": "collocation", "ex": "Low supply was a contributing factor in the price surge.", "exEn": "기여 요인 · formal", "level": "Collocations"},
+  {"de": "in stark contrast", "art": "", "en": "used to highlight a strong, obvious difference", "type": "collocation", "ex": "In stark contrast to Seoul, Tokyo rents remained flat.", "exEn": "극명한 대조로 · discourse marker; formal", "level": "Collocations"},
+  {"de": "address an issue", "art": "", "en": "to deal with or tackle a problem", "type": "collocation", "ex": "The report fails to address the issue of affordability.", "exEn": "문제를 다루다 · neutral; professional", "level": "Collocations"},
+  {"de": "a wealth of experience", "art": "", "en": "a large amount of valuable experience", "type": "collocation", "ex": "She brings a wealth of experience to the research team.", "exEn": "풍부한 경험 · neutral; positive", "level": "Collocations"},
+  {"de": "on the grounds that", "art": "", "en": "giving the reason or justification for something", "type": "collocation", "ex": "The bid was rejected on the grounds that it was incomplete.", "exEn": "~라는 이유로 · formal/legal", "level": "Collocations"},
+  {"de": "a growing body of evidence", "art": "", "en": "an increasing amount of research supporting a claim", "type": "collocation", "ex": "A growing body of evidence links inequality to slow growth.", "exEn": "증가하는 증거 · formal/academic", "level": "Collocations"},
+  {"de": "reach a consensus", "art": "", "en": "to arrive at general agreement", "type": "collocation", "ex": "Researchers have yet to reach a consensus on the cause.", "exEn": "합의에 도달하다 · formal/academic", "level": "Collocations"},
+  {"de": "a double-edged sword", "art": "", "en": "something with both good and bad consequences", "type": "collocation", "ex": "Low interest rates are a double-edged sword for the economy.", "exEn": "양날의 검 · neutral; common idiom", "level": "Collocations"},
+  {"de": "lend support to", "art": "", "en": "to provide evidence backing a claim or theory", "type": "collocation", "ex": "These results lend support to the supply-shortage hypothesis.", "exEn": "뒷받침하다 · formal/academic", "level": "Collocations"},
+  {"de": "a long-standing tradition", "art": "", "en": "a custom that has existed for a long time", "type": "collocation", "ex": "Saving for a home is a long-standing tradition in Korea.", "exEn": "오랜 전통 · neutral", "level": "Collocations"},
+  {"de": "at the heart of", "art": "", "en": "the most central or essential part of something", "type": "collocation", "ex": "Supply constraints lie at the heart of the housing crisis.", "exEn": "~의 핵심에 · formal; emphatic", "level": "Collocations"},
+  {"de": "a glaring omission", "art": "", "en": "an obvious and serious thing left out", "type": "collocation", "ex": "The exclusion of rents is a glaring omission in the study.", "exEn": "명백한 누락 · critical; formal", "level": "Collocations"},
+  {"de": "gain traction", "art": "", "en": "to start to become popular or accepted", "type": "collocation", "ex": "The idea of a vacancy tax is gaining traction among voters.", "exEn": "호응을 얻다 · neutral; common", "level": "Collocations"},
+  {"de": "a plausible explanation", "art": "", "en": "a reason that seems reasonable and believable", "type": "collocation", "ex": "Speculation offers a plausible explanation for the spike.", "exEn": "그럴듯한 설명 · formal/academic", "level": "Collocations"},
+  {"de": "run counter to", "art": "", "en": "to be the opposite of or conflict with something", "type": "collocation", "ex": "The results run counter to conventional theory.", "exEn": "~와 배치되다 · formal/academic", "level": "Collocations"},
+  {"de": "a pressing concern", "art": "", "en": "an urgent problem needing attention", "type": "collocation", "ex": "Youth unemployment remains a pressing concern.", "exEn": "시급한 문제 · formal", "level": "Collocations"},
+  {"de": "the bigger picture", "art": "", "en": "the overall situation rather than small details", "type": "collocation", "ex": "Focusing on monthly data can make us lose sight of the bigger picture.", "exEn": "큰 그림 · neutral; common", "level": "Collocations"},
+];
+
+/* ============================ State / storage ============================ */
+const PKEY = 'en_progress_v1';
+const defaultProgress = { known: [], practice: [], reviewed: {}, streak: 0, lastActive: null, goal: 5,
+                          grammarSeen: [], quizBest: null, quizTotal: null, quizAttempts: 0,
+                          level: 'Words', maxLevel: 0, sentencesDone: 0, dayWords: {} };
+
+// AI features use Google Gemini (free tier). Optional: paste your AIza... key below to bake it in
+// (note: this file syncs via iCloud — don't share it then). Empty = paste once in Settings ⚙️ (persists on localhost).
+const DEFAULT_API_KEY = '';
+const DEFAULT_MODEL = 'gemini-2.5-flash';   // free-tier model; switch anytime in Settings
+
+// Safe localStorage access — some contexts (preview panes, sandboxed iframes,
+// private windows) block or wipe storage. These wrappers never throw.
+let storageOK = true;
+const LS = (function () { try { return window.localStorage; } catch (e) { return null; } })();
+function safeGet(k) { try { return LS ? LS.getItem(k) : null; } catch (e) { return null; } }
+function safeSet(k, v) { try { if (LS) { LS.setItem(k, v); return true; } } catch (e) { storageOK = false; } return false; }
+function safeRemove(k) { try { if (LS) LS.removeItem(k); } catch (e) {} }
+
+function checkStorage() {
+  if (!LS) { storageOK = false; }
+  else {
+    try { LS.setItem('__dd_test', '1'); LS.removeItem('__dd_test'); }
+    catch (e) { storageOK = false; }
+  }
+  if (!storageOK) showStorageWarning();
+}
+function showStorageWarning() {
+  const el = document.getElementById('storageWarn');
+  if (el) el.style.display = 'block';
+}
+
+let progress = load();
+
+function load() {
+  try {
+    const raw = JSON.parse(safeGet(PKEY));
+    if (raw) return Object.assign({}, defaultProgress, raw);
+  } catch (e) {}
+  return JSON.parse(JSON.stringify(defaultProgress));
+}
+function save() {
+  if (!safeSet(PKEY, JSON.stringify(progress))) showStorageWarning();
+}
+
+/* ============================ Date helpers ============================ */
+function ymd(d) {
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function today() { return ymd(new Date()); }
+function yesterday() { const d = new Date(); d.setDate(d.getDate()-1); return ymd(d); }
+function dayNumber() {
+  const d = new Date();
+  return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+}
+/* ============================ Levels ============================ */
+// LEVELS + WORD_BANK are defined in the data block above.
+let curLevel = 'Words';   // level currently being studied
+let curIdx = [];       // global word-ids belonging to curLevel
+let wotdId = 0;        // "word of the day" id within curLevel
+
+function levelIndices(lv) {
+  const a = [];
+  for (let i = 0; i < WORDS.length; i++) if (WORDS[i].level === lv) a.push(i);
+  return a;
+}
+// Order the current category: not-yet-known words first (rotated by day for variety), known ones last.
+function orderedLevelIds() {
+  const arr = (curIdx && curIdx.length) ? curIdx.slice() : WORDS.map((_, i) => i);
+  const n = arr.length || 1;
+  const off = ((dayNumber() % n) + n) % n;
+  const rot = arr.slice(off).concat(arr.slice(0, off));
+  const unknown = rot.filter(i => !progress.known.includes(i));
+  const known = rot.filter(i => progress.known.includes(i));
+  return unknown.concat(known);
+}
+function levelKnownCount(lv) {
+  return levelIndices(lv).filter(i => progress.known.includes(i)).length;
+}
+function levelComplete(lv) {
+  const ids = levelIndices(lv);
+  return ids.length > 0 && ids.every(i => progress.known.includes(i));
+}
+function setLevel(lv, opts) {
+  if (LEVELS.indexOf(lv) < 0) lv = 'Words';
+  curLevel = lv;
+  curIdx = levelIndices(lv);
+  if (!curIdx.length) { curLevel = lv = 'Words'; curIdx = levelIndices('Words'); }
+  progress.level = curLevel;
+  const ordered = orderedLevelIds();
+  wotdId = ordered.length ? ordered[0] : (curIdx[0] || 0);
+  queue = [];
+  cur = wotdId;
+  save();
+  renderLevelBar();
+  renderCard(opts && opts.speak);
+  newWriteTask();        // sentence-builder uses the current level's words
+  refreshAll();
+}
+function maybeLevelUp() {
+  playFanfare();
+  showToast(`🎉 You've cleared every ${curLevel} card! Pick another category or keep reviewing.`);
+  renderLevelBar();
+  refreshAll();
+}
+// At startup: unlock every level whose predecessor is complete, and land on the first incomplete level.
+function reconcileLevels() {
+  progress.maxLevel = LEVELS.length - 1;   // all categories always available (no gating)
+  if (LEVELS.indexOf(progress.level) < 0) progress.level = LEVELS[0];
+}
+function renderLevelBar() {
+  const bar = document.getElementById('levelBar');
+  if (!bar) return;
+  const maxL = progress.maxLevel || 0;
+  bar.innerHTML = '';
+  LEVELS.forEach((lv, i) => {
+    const total = levelIndices(lv).length, known = levelKnownCount(lv), locked = i > maxL;
+    const b = document.createElement('button');
+    b.className = 'level-chip' + (lv === curLevel ? ' active' : '') + (locked ? ' locked' : '');
+    if (locked) b.innerHTML = `${lv} 🔒`;
+    else if (lv === curLevel) b.innerHTML = `${lv} · ${known}/${total}`;
+    else b.innerHTML = lv + (total && known === total ? ' ✓' : '');
+    if (locked) b.title = `Finish ${LEVELS[i - 1]} to unlock ${lv}`;
+    else b.addEventListener('click', () => { if (lv !== curLevel) setLevel(lv, { speak: false }); });
+    bar.appendChild(b);
+  });
+}
+function renderLevelBreakdown() {
+  const el = document.getElementById('levelBreakdown');
+  if (!el) return;
+  const maxL = progress.maxLevel || 0;
+  el.innerHTML = LEVELS.map((lv, i) => {
+    const total = levelIndices(lv).length, known = levelKnownCount(lv);
+    const pct = total ? Math.round(known / total * 100) : 0;
+    const locked = i > maxL, done = total && known === total;
+    return `<div class="lvl-row${lv === curLevel ? ' cur' : ''}">` +
+      `<span class="lvl-name">${lv}${locked ? ' 🔒' : (done ? ' ✓' : '')}</span>` +
+      `<span class="lvl-bar"><span style="width:${pct}%"></span></span>` +
+      `<span class="lvl-n">${known}/${total}</span></div>`;
+  }).join('');
+}
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 4200);
+}
+
+/* ============================ Flashcard ============================ */
+let cur = 0;
+const flashcard = document.getElementById('flashcard');
+
+function renderCard(auto) {
+  const w = WORDS[cur];
+  const front = w.art ? `<span class="art">${w.art}</span> ${w.de}` : w.de;
+  const posLabel = w.art ? `${w.type} · ${w.art}` : w.type;
+  document.getElementById('frontWord').innerHTML = front;
+  document.getElementById('posTag').textContent = posLabel;
+  document.getElementById('posTagBack').textContent = posLabel;
+  document.getElementById('backEn').textContent = w.en;
+  document.getElementById('backEx').textContent = w.ex;
+  document.getElementById('backExEn').textContent = w.exEn;
+  document.getElementById('wotdBadge').style.display = (cur === wotdId) ? 'block' : 'none';
+  flashcard.classList.remove('flipped');
+  if (auto && autoplayOn()) speak(wordSpeech(w), speakFront);
+}
+flashcard.addEventListener('click', () => flashcard.classList.toggle('flipped'));
+
+/* ---- pronunciation (Web Speech API) ---- */
+let deVoice = null;
+const VOICE_LANG = 'en';
+const VOICE_PREFER = ['Samantha', 'Alex', 'Allison', 'Ava', 'Daniel', 'Karen', 'Moira', 'Google US English'];   // good English voices
+const NOVELTY_VOICES = ['eddy','flo','grandma','grandpa','reed','rocko','sandy','shelley','bubbles','bells','boing','bad news','good news','jester','organ','superstar','trinoids','whisper','wobble','zarvox','albert','bahh','cellos','junior','kathy','ralph','fred'];
+function loadVoices() {
+  if (!window.speechSynthesis) return;
+  const vs = speechSynthesis.getVoices();
+  const saved = safeGet('dd_voice');
+  if (saved) { const sv = vs.find(v => v.name === saved); if (sv) { deVoice = sv; return; } }
+  const m = vs.filter(v => (v.lang || '').toLowerCase().replace('_', '-').startsWith(VOICE_LANG));
+  if (!m.length) { deVoice = null; return; }
+  for (const name of VOICE_PREFER) {
+    const hit = m.find(v => (v.name || '').toLowerCase().includes(name.toLowerCase()));
+    if (hit) { deVoice = hit; return; }
+  }
+  const good = m.filter(v => !NOVELTY_VOICES.some(n => (v.name || '').toLowerCase().includes(n)));
+  const enhanced = good.find(v => /(enhanced|premium|siri|natural|neural)/i.test(v.name || ''));
+  deVoice = enhanced || good[0] || m[0];
+}
+if (window.speechSynthesis) {
+  loadVoices();
+  if (speechSynthesis.addEventListener) speechSynthesis.addEventListener('voiceschanged', loadVoices);
+}
+function autoplayOn() { return safeGet('dd_autoplay') === '1'; }
+function wordSpeech(w) { return (w.art ? w.art + ' ' : '') + w.de; }
+function speak(text, el) {
+  if (!window.speechSynthesis || !text) return;
+  const synth = window.speechSynthesis;
+  if (!deVoice) loadVoices();
+  try { synth.cancel(); } catch (e) {}
+  setTimeout(function () {
+    // Warm-up: a near-silent utterance first absorbs the engine's startup latency,
+    // otherwise Chrome can clip a short single word (like a verb) to silence.
+    try { const warm = new SpeechSynthesisUtterance(' '); warm.volume = 0.01; synth.speak(warm); } catch (e) {}
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = deVoice ? deVoice.lang : 'en-US';
+    if (deVoice) u.voice = deVoice;
+    u.rate = 0.9;
+    if (el) { u.onstart = () => el.classList.add('speaking'); u.onend = u.onerror = () => el.classList.remove('speaking'); }
+    try { synth.speak(u); } catch (e) {}
+    setTimeout(function () { try { if (synth.paused) synth.resume(); } catch (e) {} }, 90);
+  }, 60);
+}
+const speakFront = document.getElementById('speakFront');
+const speakBack = document.getElementById('speakBack');
+if (!window.speechSynthesis) { speakFront.style.display = 'none'; speakBack.style.display = 'none'; }
+speakFront.addEventListener('click', e => { e.stopPropagation(); speak(wordSpeech(WORDS[cur]), speakFront); });
+speakBack.addEventListener('click', e => { e.stopPropagation(); speak(WORDS[cur].ex, speakBack); });
+
+function testVoice() {
+  const out = document.getElementById('voiceTestOut');
+  if (!window.speechSynthesis) { if (out) out.textContent = 'This browser has no speech support.'; return; }
+  const vs = speechSynthesis.getVoices();
+  const de = vs.filter(v => (v.lang || '').toLowerCase().startsWith('en')).map(v => v.name + ' (' + v.lang + ')');
+  if (out) out.textContent = vs.length + ' voices total · English: ' +
+    (de.length ? de.join(', ') : 'NONE found — add one in System Settings → Accessibility → Spoken Content → System Voice');
+  speak('serendipity');
+}
+const vtb = document.getElementById('voiceTestBtn');
+if (vtb) vtb.addEventListener('click', testVoice);
+
+/* ---- sound effects (Web Audio API, Duolingo-style) ---- */
+let audioCtx = null;
+function sfxOn() { return safeGet('dd_sfx') !== '0'; }  // on by default
+function getAudio() {
+  if (audioCtx === null) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    catch (e) { audioCtx = false; }
+  }
+  return audioCtx || null;
+}
+function playTone(freqs, o) {
+  o = o || {};
+  const ctx = getAudio();
+  if (!ctx) return;
+  if (ctx.state === 'suspended') ctx.resume();
+  const now = ctx.currentTime, gap = o.gap || 0.09, dur = o.dur || 0.16, vol = o.vol || 0.16, type = o.type || 'triangle';
+  freqs.forEach((f, i) => {
+    const osc = ctx.createOscillator(), g = ctx.createGain(), t0 = now + i * gap;
+    osc.type = type;
+    osc.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g).connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.03);
+  });
+}
+function playCorrect()  { if (sfxOn()) playTone([523.25, 659.25, 783.99, 1046.5], { type: 'triangle', gap: 0.08, dur: 0.18, vol: 0.16 }); }
+function playFanfare()  { if (sfxOn()) playTone([523.25, 659.25, 783.99, 1046.5, 1318.51], { type: 'triangle', gap: 0.1, dur: 0.26, vol: 0.18 }); }
+function playPractice() { if (sfxOn()) playTone([392.0, 329.63], { type: 'sine', gap: 0.12, dur: 0.22, vol: 0.14 }); }
+function playWrong()    { if (sfxOn()) playTone([233.08, 196.0], { type: 'sine', gap: 0.1, dur: 0.24, vol: 0.14 }); }
+function markSound(kind) {
+  const goal = progress.goal || 5, done = progress.reviewed[today()] || 0;
+  if (done === goal) playFanfare();        // hit the daily goal → celebrate
+  else if (kind === 'known') playCorrect();
+  else playPractice();
+}
+
+function recordActivity() {
+  const t = today();
+  if (progress.lastActive === t) {
+    // already active today — streak unchanged
+  } else if (progress.lastActive === yesterday()) {
+    progress.streak += 1;
+  } else {
+    progress.streak = 1;
+  }
+  progress.lastActive = t;
+}
+function recordReview() {
+  const t = today();
+  if (!progress.dayWords) progress.dayWords = {};
+  const seen = progress.dayWords[t] || (progress.dayWords[t] = []);
+  if (!seen.includes(cur)) {                 // count each word at most once per day
+    seen.push(cur);
+    progress.reviewed[t] = (progress.reviewed[t] || 0) + 1;
+  }
+  recordActivity();
+  save();
+  refreshAll();
+}
+
+document.getElementById('knownBtn').addEventListener('click', () => {
+  const wasComplete = levelComplete(curLevel);
+  if (!progress.known.includes(cur)) progress.known.push(cur);
+  progress.practice = progress.practice.filter(i => i !== cur);
+  recordReview();
+  if (!wasComplete && levelComplete(curLevel)) { maybeLevelUp(); return; }  // finished this level → advance
+  markSound('known');
+  nextCard();
+});
+document.getElementById('practiceBtn').addEventListener('click', () => {
+  if (!progress.practice.includes(cur)) progress.practice.push(cur);
+  progress.known = progress.known.filter(i => i !== cur);
+  recordReview();
+  markSound('practice');
+  requeueCurrent();   // this word comes back a few cards later
+  advance();
+});
+document.getElementById('nextBtn').addEventListener('click', nextCard);
+
+// Session study queue — lets "Practice again" re-insert a word so it returns soon.
+let queue = [];
+function refillQueue() {
+  queue = orderedLevelIds().filter(i => i !== cur);   // new words first, known ones last
+}
+function advance() {
+  if (queue.length === 0) refillQueue();
+  let next = queue.shift();
+  if (next === cur && queue.length > 0) next = queue.shift();
+  cur = next;
+  renderCard(true);
+}
+function nextCard() { advance(); }                 // "Next word →"
+function requeueCurrent() {                          // bring the current word back a few cards later
+  if (queue.length === 0) refillQueue();             // ensure other cards come first (no immediate repeat)
+  const pos = Math.min(3, queue.length);
+  queue.splice(pos, 0, cur);
+}
+
+document.getElementById('askWordBtn').addEventListener('click', () => {
+  const w = WORDS[cur];
+  const label = w.art ? `${w.art} ${w.de}` : w.de;
+  switchTab('tutor');
+  const q = `Explain the English ${w.type} "${label}" (${w.en}). Cover its exact meaning, nuance and register, when a native would use it, and give me one more natural example sentence.`;
+  sendMessage(q);
+});
+
+/* ============================ Daily goal ============================ */
+function refreshGoal() {
+  const done = progress.reviewed[today()] || 0;
+  const goal = progress.goal || 5;
+  document.getElementById('goalDone').textContent = done;
+  document.getElementById('goalTotal').textContent = goal;
+  const pct = Math.min(100, Math.round(done / goal * 100));
+  document.getElementById('goalBar').style.width = pct + '%';
+  const msg = document.getElementById('goalMsg');
+  if (done === 0) msg.textContent = 'Review a few words to keep your streak alive. Mark each card "I knew it" or "Practice again".';
+  else if (done < goal) msg.textContent = `Nice — ${goal - done} more to hit today's goal.`;
+  else msg.textContent = '🎉 Daily goal reached! Keep going if you like.';
+}
+
+/* ============================ Progress tab ============================ */
+function refreshProgress() {
+  const streakShown = (progress.lastActive === today() || progress.lastActive === yesterday()) ? progress.streak : 0;
+  document.getElementById('statStreak').textContent = streakShown;
+  document.getElementById('streakNum').textContent = streakShown;
+  document.getElementById('statKnown').textContent = progress.known.length;
+  document.getElementById('statToday').textContent = progress.reviewed[today()] || 0;
+  document.getElementById('statTotal').textContent = Object.values(progress.reviewed).reduce((a,b)=>a+b,0);
+
+  document.getElementById('masteryN').textContent = progress.known.length;
+  document.getElementById('masteryTotal').textContent = WORDS.length;
+  document.getElementById('masteryBar').style.width = Math.round(progress.known.length / WORDS.length * 100) + '%';
+  renderLevelBreakdown();
+
+  document.getElementById('statGrammar').textContent = (progress.grammarSeen ? progress.grammarSeen.length : 0) + ' / ' + GRAMMAR.length;
+  document.getElementById('statQuiz').textContent = (progress.quizBest != null && progress.quizTotal)
+    ? progress.quizBest + ' / ' + progress.quizTotal : '—';
+
+  renderHeatmap();
+  renderChips('practiceChips', progress.practice, 'No words to practice yet.');
+  renderChips('knownChips', progress.known, 'No known words yet — mark some "I knew it".');
+}
+
+function renderChips(id, ids, emptyMsg) {
+  const el = document.getElementById(id);
+  el.innerHTML = '';
+  if (!ids.length) { el.innerHTML = `<span class="empty">${emptyMsg}</span>`; return; }
+  ids.slice().reverse().forEach(i => {
+    const w = WORDS[i];
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.innerHTML = w.art ? `<span class="art">${w.art}</span> ${w.de}` : w.de;
+    chip.title = w.en;
+    chip.addEventListener('click', () => {
+      const lv = WORDS[i].level;
+      if (LEVELS.indexOf(lv) <= (progress.maxLevel || 0) && lv !== curLevel) setLevel(lv, { speak: false });
+      cur = i; switchTab('today'); renderCard(true);
+    });
+    el.appendChild(chip);
+  });
+}
+
+function renderHeatmap() {
+  const el = document.getElementById('heatmap');
+  el.innerHTML = '';
+  const end = new Date();
+  // start at the Sunday on/before (today - 90 days)
+  const start = new Date();
+  start.setDate(start.getDate() - 90);
+  start.setDate(start.getDate() - start.getDay()); // back to Sunday
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
+    const key = ymd(d);
+    const count = progress.reviewed[key] || 0;
+    const cell = document.createElement('div');
+    let lvl = '';
+    if (count >= 10) lvl = 'l4';
+    else if (count >= 6) lvl = 'l3';
+    else if (count >= 3) lvl = 'l2';
+    else if (count >= 1) lvl = 'l1';
+    cell.className = 'hcell ' + lvl;
+    cell.title = `${key}: ${count} review${count===1?'':'s'}`;
+    el.appendChild(cell);
+  }
+}
+
+/* ============================ Tabs ============================ */
+function switchTab(name) {
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  if (name === 'tutor') document.getElementById('chatText').focus();
+}
+document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+/* ============================ Settings & theme ============================ */
+const modalBack = document.getElementById('modalBack');
+function openSettings() {
+  document.getElementById('keyInput').value = safeGet('dd_gkey') || '';
+  document.getElementById('modelSelect').value = safeGet('dd_gmodel') || DEFAULT_MODEL;
+  document.getElementById('goalInput').value = progress.goal || 5;
+  document.getElementById('autoplayInput').checked = autoplayOn();
+  document.getElementById('sfxInput').checked = sfxOn();
+  modalBack.classList.add('open');
+}
+document.getElementById('settingsBtn').addEventListener('click', openSettings);
+document.getElementById('closeSettings').addEventListener('click', () => modalBack.classList.remove('open'));
+modalBack.addEventListener('click', e => { if (e.target === modalBack) modalBack.classList.remove('open'); });
+
+document.getElementById('saveSettings').addEventListener('click', () => {
+  const key = document.getElementById('keyInput').value.trim();
+  if (key) safeSet('dd_gkey', key); else safeRemove('dd_gkey');
+  safeSet('dd_gmodel', document.getElementById('modelSelect').value);
+  safeSet('dd_autoplay', document.getElementById('autoplayInput').checked ? '1' : '0');
+  safeSet('dd_sfx', document.getElementById('sfxInput').checked ? '1' : '0');
+  const g = parseInt(document.getElementById('goalInput').value, 10);
+  progress.goal = (g > 0 && g <= 50) ? g : 5;
+  save();
+  modalBack.classList.remove('open');
+  refreshAll();
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (confirm('Reset all your progress (streak, known words, history)? This cannot be undone.')) {
+    progress = JSON.parse(JSON.stringify(defaultProgress));
+    save();
+    setLevel('Words', { speak: false });
+    modalBack.classList.remove('open');
+  }
+});
+
+const themeBtn = document.getElementById('themeBtn');
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+  safeSet('dd_theme', t);
+}
+themeBtn.addEventListener('click', () => {
+  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+
+/* ============================ Tutor chat (Claude API, browser-direct) ============================ */
+const SYSTEM_PROMPT =
+  "You are an expert English coach for an advanced (C1–C2) learner whose first language is Korean. " +
+  "Focus on nuance, register, naturalness, collocations, idioms and native phrasing — not basic grammar. " +
+  "When the learner asks whether something is natural, say so directly and offer the most native-sounding version. " +
+  "Be concise and precise; give a short example. You may add a brief Korean gloss in parentheses when it genuinely helps. " +
+  "Respond directly with your final answer only — do not show your internal reasoning or planning.";
+
+const SUGGESTIONS = [
+  "Is 'I'm looking forward to meet you' correct?",
+  "A more natural way to say 'very important'?",
+  "When do I use 'affect' vs 'effect'?",
+  "Give me 5 native idioms for being busy."
+];
+
+let chatMessages = [];   // {role, content}
+let streaming = false;
+
+function modelName() { return safeGet('dd_gmodel') || DEFAULT_MODEL; }
+
+function refreshChatMeta() {
+  document.getElementById('modelTag').textContent = modelName();
+  document.getElementById('noKeyNote').style.display = safeGet('dd_gkey') ? 'none' : 'block';
+}
+
+function buildSuggestions() {
+  const box = document.getElementById('suggestChips');
+  box.innerHTML = '';
+  SUGGESTIONS.forEach(s => {
+    const c = document.createElement('span');
+    c.className = 'chip';
+    c.textContent = s;
+    c.addEventListener('click', () => sendMessage(s));
+    box.appendChild(c);
+  });
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function formatMd(text) {
+  // code fences
+  let html = escapeHtml(text);
+  html = html.replace(/```([\s\S]*?)```/g, (m, code) => `<pre><code>${code.replace(/^\n/,'')}</code></pre>`);
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/(^|\n)[\-\*] /g, '$1• ');
+  html = html.replace(/\n/g, '<br>');
+  return html;
+}
+
+const chatScroll = document.getElementById('chatScroll');
+function renderChat() {
+  // clear except keep nothing; rebuild from messages
+  chatScroll.innerHTML = '';
+  if (!chatMessages.length) {
+    chatScroll.appendChild(document.getElementById('chatEmpty'));
+    document.getElementById('chatEmpty').style.display = '';
+    return;
+  }
+  chatMessages.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'msg ' + m.role;
+    div.innerHTML = m.role === 'assistant' ? formatMd(m.content || '') : escapeHtml(m.content);
+    chatScroll.appendChild(div);
+  });
+  chatScroll.scrollTop = chatScroll.scrollHeight;
+}
+
+const chatText = document.getElementById('chatText');
+const sendBtn = document.getElementById('sendBtn');
+
+chatText.addEventListener('input', () => {
+  chatText.style.height = 'auto';
+  chatText.style.height = Math.min(120, chatText.scrollHeight) + 'px';
+});
+chatText.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(chatText.value); }
+});
+sendBtn.addEventListener('click', () => sendMessage(chatText.value));
+document.getElementById('clearChat').addEventListener('click', () => { chatMessages = []; renderChat(); });
+
+async function sendMessage(text) {
+  text = (text || '').trim();
+  if (!text || streaming) return;
+  const key = safeGet('dd_gkey');
+  if (!key) { openSettings(); return; }
+
+  chatText.value = '';
+  chatText.style.height = 'auto';
+  chatMessages.push({ role: 'user', content: text });
+  const aIdx = chatMessages.push({ role: 'assistant', content: '' }) - 1;
+  renderChat();
+  // streaming target bubble
+  const bubble = chatScroll.lastChild;
+  bubble.innerHTML = '<span class="cursor"></span>';
+
+  streaming = true; sendBtn.disabled = true;
+  try {
+    const model = modelName();
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${encodeURIComponent(key)}`,
+      {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: chatMessages.slice(0, aIdx).map(m => ({
+            role: m.role === 'assistant' ? 'model' : 'user',
+            parts: [{ text: m.content }]
+          })),
+          generationConfig: { maxOutputTokens: 2048 }
+        })
+      }
+    );
+
+    if (!res.ok) {
+      const t = await res.text();
+      let msg;
+      try { msg = JSON.parse(t).error?.message || t; } catch { msg = t; }
+      chatMessages[aIdx].content = '⚠️ ' + ((res.status === 400 || res.status === 403)
+        ? 'API key problem — open Settings ⚙️ and check your Gemini key.'
+        : `Error ${res.status}: ${msg}`);
+      renderChat();
+      return;
+    }
+
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = '';
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      let nl;
+      while ((nl = buf.indexOf('\n')) >= 0) {
+        const line = buf.slice(0, nl).trim();
+        buf = buf.slice(nl + 1);
+        if (!line.startsWith('data:')) continue;
+        const data = line.slice(5).trim();
+        if (!data) continue;
+        try {
+          const evt = JSON.parse(data);
+          const parts = evt.candidates && evt.candidates[0] && evt.candidates[0].content && evt.candidates[0].content.parts;
+          if (parts) {
+            const t = parts.map(p => p.text || '').join('');
+            if (t) {
+              chatMessages[aIdx].content += t;
+              bubble.innerHTML = formatMd(chatMessages[aIdx].content) + '<span class="cursor"></span>';
+              chatScroll.scrollTop = chatScroll.scrollHeight;
+            }
+          } else if (evt.error) {
+            chatMessages[aIdx].content += '\n⚠️ ' + (evt.error.message || 'stream error');
+          }
+        } catch (e) { /* ignore partial JSON */ }
+      }
+    }
+    bubble.innerHTML = formatMd(chatMessages[aIdx].content);
+  } catch (err) {
+    chatMessages[aIdx].content = '⚠️ Could not reach the API: ' + err.message +
+      '\n\nIf you opened this file directly (file://) and it keeps failing, try serving it from a simple local web server.';
+    renderChat();
+  } finally {
+    streaming = false; sendBtn.disabled = false;
+    chatScroll.scrollTop = chatScroll.scrollHeight;
+  }
+}
+
+/* ============================ Grammar reference ============================ */
+const GRAMMAR = [{"id": "native-collocations", "title": "Collocations that make you sound native", "body": [{"type": "p", "text": "Native speakers don't pick words one by one — they reach for **chunks** that habitually go together. Grammatically correct but uncollocated phrasing (*make a research*, *do a mistake*) is the single biggest giveaway of a non-native speaker, even at high levels."}, {"type": "p", "text": "The fix isn't more vocabulary; it's learning which words **partner** with which. When you meet a new noun, learn the verb and adjective that travel with it."}, {"type": "table", "head": ["Don't say", "Say instead"], "rows": [["make a research", "do / carry out research"], ["do a mistake", "make a mistake"], ["say a joke", "tell / crack a joke"], ["a strong rain", "heavy rain"], ["a fast food (quick meal)", "a quick bite"], ["take a decision (US)", "make a decision"]]}, {"type": "ex", "items": [{"de": "She made a quick decision and took full responsibility.", "en": "make + decision, take + responsibility are fixed pairs"}, {"de": "The evidence raises serious doubts about the theory.", "en": "raise doubts / serious doubts — both collocate strongly"}, {"de": "He paid close attention and drew a clear conclusion.", "en": "pay attention, draw a conclusion — verb+noun chunks"}]}, {"type": "tip", "text": "When you learn a noun, learn its **verb partner** too: not just *attention* but *pay attention*; not just *progress* but *make progress*. Store the pair, not the single word."}]}, {"id": "register-formal-informal", "title": "Formal vs. informal register", "body": [{"type": "p", "text": "**Register** is the level of formality you match to your audience and context. Advanced learners often have one default register and apply it everywhere — sounding stiff in a chat or too casual in an email. Control means switching deliberately."}, {"type": "table", "head": ["Informal", "Formal / neutral"], "rows": [["get", "obtain, receive"], ["a lot of", "a great deal of, numerous"], ["find out", "ascertain, determine"], ["put off", "postpone"], ["But / And (sentence-initial)", "However / Moreover"], ["kids", "children"]]}, {"type": "ex", "items": [{"de": "Thanks for getting back to me so fast!", "en": "Informal email — contractions, phrasal verbs, exclamation"}, {"de": "Thank you for your prompt reply.", "en": "Formal equivalent — Latinate verb, no contraction"}, {"de": "We need to sort this out ASAP.", "en": "Casual — fine for a colleague you know"}, {"de": "We must resolve this matter at the earliest opportunity.", "en": "Formal — appropriate for a client or official"}]}, {"type": "tip", "text": "Register isn't a simple formal/informal switch — it's a **dial**. The safest everyday setting is *neutral*: clear and polite without being stuffy. Reserve high formality for legal, academic, or first-contact professional writing."}]}, {"id": "confusables", "title": "Commonly confused words", "body": [{"type": "p", "text": "These pairs trip up even native writers. Getting them right is a quiet but reliable marker of precision — and getting them wrong is exactly what proofreaders and examiners notice first."}, {"type": "table", "head": ["Word", "Use"], "rows": [["affect (v.)", "to influence"], ["effect (n.)", "a result"], ["fewer", "countable nouns (fewer cars)"], ["less", "uncountable nouns (less time)"], ["comprise", "the whole comprises the parts (no 'of')"], ["compose", "the parts compose the whole / is composed of"], ["imply", "the speaker suggests"], ["infer", "the listener concludes"]]}, {"type": "ex", "items": [{"de": "The weather affected our plans; the effect was a delay.", "en": "affect = verb, effect = noun"}, {"de": "The committee comprises five members.", "en": "Not 'comprises of' — comprise already means 'consist of'"}, {"de": "Ten items or fewer.", "en": "Items are countable, so 'fewer' (supermarket signs often get this wrong)"}, {"de": "She implied I was late; I inferred she was annoyed.", "en": "Speaker implies, listener infers"}]}, {"type": "tip", "text": "If you can put **the** in front, it's usually **effect** (the effect). For affect/effect, remember **A**ffect is an **A**ction (verb)."}]}, {"id": "discourse-markers", "title": "Advanced linking & discourse markers", "body": [{"type": "p", "text": "Beyond *however* and *therefore*, fluent English uses a layer of markers that signal your **stance** toward what you're saying — conceding a point, qualifying it, or shifting direction. Used well, they make an argument feel guided rather than listed."}, {"type": "table", "head": ["Marker", "Function"], "rows": [["nonetheless / nevertheless", "concede, then push back ('despite that')"], ["that said / having said that", "soften your own previous claim"], ["granted, ...", "concede a point before countering it"], ["admittedly", "acknowledge a weakness honestly"], ["by the same token", "extend the same logic to a new case"], ["if anything", "correct toward the opposite, gently"]]}, {"type": "ex", "items": [{"de": "The plan is expensive. That said, the alternative is worse.", "en": "Concedes the cost, then redirects — very natural in speech and writing"}, {"de": "Granted, the sample was small, but the trend was clear.", "en": "Granted = 'I admit X, however Y' in one word"}, {"de": "It wasn't boring. If anything, it was too exciting.", "en": "If anything corrects toward the opposite of what was implied"}]}, {"type": "tip", "text": "**However** is not a conjunction — don't splice it: write *It rained; however, we went* (semicolon) or start a new sentence, not *It rained, however we went*."}]}, {"id": "hedging-academic-tone", "title": "Hedging & academic tone", "body": [{"type": "p", "text": "Academic and professional English rarely states things as flat certainties. **Hedging** — softening a claim — signals that you've weighed the evidence and aren't overreaching. Korean and other learners often sound unintentionally blunt or absolute because they skip this layer."}, {"type": "table", "head": ["Strong / absolute", "Hedged"], "rows": [["This proves X", "This suggests / indicates X"], ["X causes Y", "X may contribute to Y"], ["Everyone agrees", "There is broad consensus"], ["It is always the case", "It tends to be the case"], ["This is the reason", "This is arguably a key reason"]]}, {"type": "ex", "items": [{"de": "The results suggest that interest rates tend to lag inflation.", "en": "suggest + tend to — double-hedged, classic academic register"}, {"de": "To some extent, the model accounts for the variance.", "en": "To some extent = partial credit, avoids overclaiming"}, {"de": "Arguably, this is the most significant factor.", "en": "Arguably flags it as a defensible opinion, not a fact"}]}, {"type": "tip", "text": "Don't over-hedge either. Stacking *it could perhaps possibly be argued that...* reads as evasive. **One** hedge per claim is usually enough to sound measured rather than wishy-washy."}]}, {"id": "phrasal-vs-latinate", "title": "Phrasal verbs vs. Latinate verbs", "body": [{"type": "p", "text": "English has two registers hiding in its verbs. **Phrasal verbs** (Germanic roots: *put off*, *find out*) sound natural and conversational; their single-word **Latinate** equivalents (*postpone*, *ascertain*) sound formal or technical. Native fluency means choosing by context, not always reaching for the 'fancy' word."}, {"type": "table", "head": ["Phrasal (natural)", "Latinate (formal)"], "rows": [["put up with", "tolerate"], ["look into", "investigate"], ["go up", "increase / rise"], ["give up", "abandon / relinquish"], ["come across (as)", "appear / seem"], ["cut down on", "reduce"]]}, {"type": "ex", "items": [{"de": "Can you look into why the report's late?", "en": "Spoken / email to a colleague — phrasal is right here"}, {"de": "The committee will investigate the discrepancy.", "en": "Formal report — Latinate fits the register"}, {"de": "I can't put up with the noise anymore.", "en": "Using 'tolerate' here would sound oddly stiff"}]}, {"type": "tip", "text": "Learners often **overuse** Latinate verbs to sound advanced, which actually sounds robotic in everyday speech. In casual contexts, the phrasal verb is usually the *more* sophisticated choice because it's what natives actually say."}]}, {"id": "idioms-by-theme", "title": "Idioms by theme (time, money, work)", "body": [{"type": "p", "text": "Idioms are high-risk, high-reward: used aptly they sound effortlessly native, but a slightly-wrong idiom is more jarring than plain language. Learn them in **thematic clusters** so the right one surfaces in context."}, {"type": "table", "head": ["Theme", "Idiom → meaning"], "rows": [["Time", "in the nick of time → just barely in time"], ["Time", "call it a day → stop working for now"], ["Money", "cost an arm and a leg → very expensive"], ["Money", "tighten one's belt → cut spending"], ["Work", "go the extra mile → do more than required"], ["Work", "be snowed under → overwhelmed with work"]]}, {"type": "ex", "items": [{"de": "We finished the proposal in the nick of time.", "en": "Time idiom — natural in both speech and semi-formal writing"}, {"de": "After the rent hike, we had to tighten our belts.", "en": "Money idiom — vivid and very common"}, {"de": "I'm snowed under this week — can we push the call?", "en": "Work idiom — standard in office English"}]}, {"type": "tip", "text": "Don't mix or 'half-remember' idioms (*the ball is in your field* ✗ → *court* ✓). A mangled idiom stands out far more than the plain phrase. **When unsure, say it literally.**"}]}, {"id": "british-vs-american", "title": "British vs. American differences", "body": [{"type": "p", "text": "The two main standards differ in spelling, vocabulary, and some grammar. Neither is 'more correct' — but **mixing them within one document** looks careless. Pick one and stay consistent."}, {"type": "table", "head": ["British", "American"], "rows": [["colour, favour", "color, favor"], ["organise, analyse", "organize, analyze"], ["centre, theatre", "center, theater"], ["flat", "apartment"], ["lift", "elevator"], ["autumn", "fall"]]}, {"type": "ex", "items": [{"de": "I'll take the lift to the first floor.", "en": "BrE 'first floor' = AmE 'second floor' (ground floor differs!)"}, {"de": "The team are playing well.", "en": "BrE often treats collective nouns as plural; AmE prefers 'the team is'"}, {"de": "Did you do it yet? / Have you done it yet?", "en": "AmE accepts past simple with 'yet'; BrE prefers present perfect"}]}, {"type": "tip", "text": "Set your spell-checker to one variety and leave it. For learners aiming at Europe/UK contexts, **British** spelling is the safer default; for US/tech contexts, **American**."}]}, {"id": "precise-adjectives", "title": "Intensifiers & precise adjectives", "body": [{"type": "p", "text": "Reaching for *very + adjective* every time is the verbal equivalent of turning up the volume on a fuzzy signal. A single **precise adjective** is sharper and more native than any intensifier stack."}, {"type": "table", "head": ["very + adj", "one precise word"], "rows": [["very big", "huge, massive, enormous"], ["very small", "tiny, minute"], ["very tired", "exhausted, drained"], ["very interesting", "fascinating, gripping"], ["very important", "crucial, vital, pivotal"], ["very angry", "furious, livid"]]}, {"type": "ex", "items": [{"de": "The findings were fascinating.", "en": "Stronger and tighter than 'very interesting'"}, {"de": "I was absolutely exhausted after the trip.", "en": "Note: pair 'absolutely' with extreme adjectives, not 'very exhausted'"}, {"de": "This is a crucial detail.", "en": "'Crucial' already contains the 'very' — no intensifier needed"}]}, {"type": "tip", "text": "Match the intensifier to the adjective type: gradable adjectives take **very** (*very good*); extreme/absolute ones take **absolutely / utterly** (*absolutely brilliant*, not *very brilliant*)."}]}, {"id": "korean-c1-mistakes", "title": "Typical C1 mistakes Korean speakers make", "body": [{"type": "p", "text": "At C1, the remaining errors for Korean speakers are usually systematic — driven by differences between Korean and English structure. Fixing these few patterns yields an outsized jump in naturalness."}, {"type": "table", "head": ["Common error", "Natural English"], "rows": [["I have much homeworks", "I have a lot of homework (uncountable, no -s)"], ["I met my friend yesterday (= a friend)", "I met a friend yesterday"], ["He is suffering hardship (no article)", "He is going through a hard time"], ["I'm interesting in economics", "I'm interested in economics"], ["Almost students agree", "Almost all students / Most students agree"], ["I will explain you the plan", "I'll explain the plan to you"]]}, {"type": "ex", "items": [{"de": "I'm looking forward to seeing you.", "en": "'look forward to' takes -ing, not the base verb — a persistent slip"}, {"de": "Most people prefer coffee.", "en": "Use 'most' for generalizations; 'almost' modifies all/every, not the noun directly"}, {"de": "She speaks English very well.", "en": "Adverb placement — 'very well' goes after the object, not 'speaks very well English'"}]}, {"type": "tip", "text": "The biggest single fix is the **article + countability** system, which Korean lacks. When you write a noun, pause and ask: *countable or not? definite (the) or indefinite (a) or general (no article)?* This one habit removes most residual errors."}]}];
+
+const CASE_QUIZ = [{"q": "The new evidence ___ serious doubt on the original theory.", "options": ["casts", "throws", "puts"], "correct": "casts", "why": "The fixed collocation is \"cast doubt on\" something — \"cast\" pairs with \"doubt,\" not \"throw\" or \"put.\""}, {"q": "She's highly ___ of finishing the project ahead of schedule.", "options": ["capable", "able", "competent"], "correct": "capable", "why": "The dependent preposition pattern is \"capable of + -ing\"; \"able\" takes \"to\" and \"competent\" takes \"in/at.\""}, {"q": "After the scandal, the minister had no choice but to ___ his resignation.", "options": ["tender", "give", "hand"], "correct": "tender", "why": "In formal register the collocation is \"tender one's resignation\"; \"hand in\" is informal and \"give\" does not collocate here."}, {"q": "Let's not ___ the issue — we need a decision today.", "options": ["beat around the bush on", "beat around the bush about", "beat around the bush"], "correct": "beat around the bush about", "why": "The idiom \"beat around the bush\" takes \"about\" when naming the topic — \"beat around the bush about the issue.\""}, {"q": "I was ___ two minds about whether to accept the offer.", "options": ["in", "of", "at"], "correct": "in", "why": "The set idiom is \"in two minds\" (BrE) meaning undecided; the preposition is fixed as \"in.\""}, {"q": "The committee is responsible ___ allocating the annual budget.", "options": ["for", "of", "to"], "correct": "for", "why": "\"Responsible for + -ing/noun\" is the correct dependent preposition; \"responsible to\" means accountable to a person."}, {"q": "His remarks bore no ___ to the actual facts of the case.", "options": ["resemblance", "similarity", "likeness"], "correct": "resemblance", "why": "The collocation is \"bear no resemblance to\" — \"resemblance\" is the noun used in this fixed phrase."}, {"q": "Which is most natural? (declining politely in a formal email)", "options": ["I'm afraid I won't be able to attend.", "I can't come, sorry.", "No way I can make it."], "correct": "I'm afraid I won't be able to attend.", "why": "\"I'm afraid I won't be able to attend\" matches the polite, formal register; the others are too casual."}, {"q": "The two countries finally ___ a compromise after weeks of talks.", "options": ["reached", "arrived", "got"], "correct": "reached", "why": "The collocation is \"reach a compromise/agreement\"; \"arrive at\" needs \"at,\" and \"get\" does not fit here."}, {"q": "She paid little ___ to the warnings and carried on regardless.", "options": ["heed", "attention", "notice"], "correct": "heed", "why": "\"Pay heed to\" is the idiomatic collocation; while \"pay attention to\" exists, \"little heed\" is the natural fixed pairing here."}, {"q": "By the time we arrived, the meeting was already ___ full swing.", "options": ["in", "at", "on"], "correct": "in", "why": "The fixed idiom is \"in full swing,\" meaning at peak activity; the preposition is always \"in.\""}, {"q": "The defendant was ___ to a lengthy prison sentence.", "options": ["sentenced", "condemned", "convicted"], "correct": "sentenced", "why": "\"Sentenced to\" collocates with a punishment; \"convicted\" takes \"of\" a crime and \"condemned\" has a different nuance."}, {"q": "I take strong ___ to the way you characterised my proposal.", "options": ["exception", "objection", "offence"], "correct": "exception", "why": "The formal collocation is \"take exception to\" (to object to); \"take objection\" is not idiomatic and \"offence\" needs \"at.\""}, {"q": "We should ___ this opportunity while it lasts.", "options": ["seize", "grab", "catch"], "correct": "seize", "why": "The natural collocation is \"seize an opportunity\"; \"grab\" is informal and \"catch\" does not collocate with \"opportunity.\""}];
+
+function inlineG(t) { return escapeHtml(t).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>'); }
+
+function renderBlocks(blocks) {
+  return blocks.map(b => {
+    if (b.type === 'p') return `<p>${inlineG(b.text)}</p>`;
+    if (b.type === 'tip') return `<div class="tip">💡 ${inlineG(b.text)}</div>`;
+    if (b.type === 'table') {
+      const head = b.head.map(h => `<th>${inlineG(h)}</th>`).join('');
+      const rows = b.rows.map(r => `<tr>${r.map((c,i) => `<td${i===0?' class="rowhead"':''}>${inlineG(c)}</td>`).join('')}</tr>`).join('');
+      return `<div class="gtable-wrap"><table class="gtable"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
+    }
+    if (b.type === 'ex') {
+      return `<div class="ex-list">` + b.items.map(it =>
+        `<div class="ex-item"><span class="ex-de">${inlineG(it.de)}</span><span class="ex-en">${inlineG(it.en)}</span></div>`).join('') + `</div>`;
+    }
+    return '';
+  }).join('');
+}
+
+function buildGrammar() {
+  const list = document.getElementById('gramList');
+  list.innerHTML = '';
+  GRAMMAR.forEach(topic => {
+    const item = document.createElement('div');
+    item.className = 'gram-item';
+    const head = document.createElement('button');
+    head.className = 'gram-head';
+    head.innerHTML = `<span>${topic.title}</span><span class="chev">▸</span>`;
+    const body = document.createElement('div');
+    body.className = 'gram-body';
+    body.innerHTML = renderBlocks(topic.body) + `<button class="btn ghost ask-topic">💬 Ask the tutor about this</button>`;
+    head.addEventListener('click', () => {
+      const open = item.classList.toggle('open');
+      if (open) markGrammarSeen(topic.id);
+    });
+    body.querySelector('.ask-topic').addEventListener('click', e => {
+      e.stopPropagation();
+      switchTab('tutor');
+      sendMessage(`Explain the English usage topic "${topic.title}" with clear examples and a practical tip on sounding natural.`);
+    });
+    item.appendChild(head);
+    item.appendChild(body);
+    list.appendChild(item);
+  });
+}
+
+function markGrammarSeen(id) {
+  if (!progress.grammarSeen.includes(id)) {
+    progress.grammarSeen.push(id);
+    save();
+    refreshProgress();
+  }
+}
+
+/* ---- case quiz ---- */
+let quizOrder = [], quizPos = 0, quizScore = 0;
+function shuffle(a) { for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function renderQuizStart() {
+  const box = document.getElementById('quizBox');
+  const best = (progress.quizBest != null && progress.quizTotal) ? `Best: ${progress.quizBest}/${progress.quizTotal} · ` : '';
+  box.innerHTML =
+    `<p class="quiz-intro">Pick the correct article (or pronoun) for each sentence. ${CASE_QUIZ.length} quick questions.</p>` +
+    `<div class="quiz-progress">${best}${progress.quizAttempts || 0} attempt(s) so far</div>` +
+    `<button class="btn primary" id="startQuiz">Start case quiz</button>`;
+  document.getElementById('startQuiz').addEventListener('click', startQuiz);
+}
+
+function startQuiz() {
+  quizOrder = shuffle(Array.from(CASE_QUIZ.keys()));
+  quizPos = 0; quizScore = 0;
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const box = document.getElementById('quizBox');
+  if (quizPos >= quizOrder.length) {
+    const total = quizOrder.length;
+    if (progress.quizBest == null || quizScore > progress.quizBest) progress.quizBest = quizScore;
+    progress.quizTotal = total;
+    progress.quizAttempts = (progress.quizAttempts || 0) + 1;
+    recordActivity();
+    save();
+    refreshAll();
+    box.innerHTML = `<div class="quiz-result"><div class="big">${quizScore} / ${total}</div><p>${quizMsg(quizScore,total)}</p><button class="btn primary" id="retryQuiz">Try again</button></div>`;
+    document.getElementById('retryQuiz').addEventListener('click', startQuiz);
+    return;
+  }
+  const q = CASE_QUIZ[quizOrder[quizPos]];
+  const opts = shuffle(q.options.slice());
+  box.innerHTML =
+    `<div class="quiz-progress">Question ${quizPos+1} of ${quizOrder.length} · Score ${quizScore}</div>` +
+    `<div class="quiz-q">${escapeHtml(q.q)}</div>` +
+    `<div class="quiz-options">${opts.map(o => `<button data-o="${escapeHtml(o)}">${escapeHtml(o)}</button>`).join('')}</div>` +
+    `<div class="quiz-why" id="quizWhy" style="display:none"></div>` +
+    `<button class="btn primary" id="quizNext" style="display:none">Next →</button>`;
+  box.querySelectorAll('.quiz-options button').forEach(btn => btn.addEventListener('click', () => answerQuiz(btn, q)));
+}
+
+function answerQuiz(btn, q) {
+  const chosen = btn.dataset.o;
+  document.querySelectorAll('.quiz-options button').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.o === q.correct) b.classList.add('correct');
+  });
+  if (chosen === q.correct) { quizScore++; playCorrect(); }
+  else { btn.classList.add('wrong'); playWrong(); }
+  const why = document.getElementById('quizWhy');
+  why.style.display = 'block';
+  why.innerHTML = (chosen === q.correct ? '✅ Correct. ' : `❌ Correct answer: <strong>${escapeHtml(q.correct)}</strong>. `) + inlineG(q.why);
+  const next = document.getElementById('quizNext');
+  next.style.display = 'block';
+  next.addEventListener('click', () => { quizPos++; renderQuiz(); });
+}
+
+function quizMsg(s, t) {
+  const p = s / t;
+  if (p === 1) return "Perfect! You've got the cases down. 🏆";
+  if (p >= 0.7) return "Great work — the cases are clicking.";
+  if (p >= 0.4) return "Good start. Review the article tables above and try again.";
+  return "Cases take practice. Read the tables above, then retry.";
+}
+
+/* ============================ Write — sentence builder ============================ */
+const WRITE_TASKS = {
+  word: [
+    'use it in a natural sentence',
+    'use it in a formal / academic sentence',
+    'use it figuratively or in an abstract context',
+    'write a sentence where it replaces a plainer word (e.g. instead of "big" or "important")',
+    'use it with a typical collocation'
+  ],
+  idiom: [
+    'use it naturally in a spoken-style sentence',
+    'use it in a short 2-line dialogue',
+    'use it in a work / professional context',
+    'use it to give someone advice'
+  ],
+  phrasal: [
+    'use it in a natural sentence',
+    'use it in the past tense',
+    'use it in a question',
+    'use it where it sounds better than its formal one-word synonym'
+  ],
+  collocation: [
+    'use it in a sentence',
+    'use it in a formal / written sentence',
+    'use it to make an argument or express an opinion',
+    'use it in a longer sentence with a linking word (however, therefore …)'
+  ],
+  default: [
+    'use it naturally in a sentence',
+    'use it in a formal sentence',
+    'use it in a longer sentence with two clauses'
+  ]
+};
+const WRITE_SYSTEM =
+  "You are a precise but encouraging English coach for an advanced (C1–C2) learner. You grade ONE English sentence the learner wrote using a given word/expression for a given task. " +
+  "Judge (1) correctness and (2) NATURALNESS — native collocation, register, prepositions and word order — and whether it fulfils the task and uses the target expression correctly. " +
+  "verdict: 'correct' = correct, natural, and fulfils the task; 'minor' = understandable but not fully natural / small issues; 'wrong' = incorrect, unnatural, or the task/expression was not used. " +
+  "corrected: the most natural native version (repeat the learner's sentence unchanged if it is already great). " +
+  "feedback: at most two sentences of English explanation naming the key point (e.g. \"natives say 'make a decision', not 'do a decision'\"); praise if it's already native. " +
+  "meaning: a short Korean translation of the corrected sentence.";
+const WRITE_SCHEMA = {
+  type: 'OBJECT',
+  properties: {
+    verdict: { type: 'STRING', enum: ['correct', 'minor', 'wrong'] },
+    corrected: { type: 'STRING' },
+    feedback: { type: 'STRING' },
+    meaning: { type: 'STRING' }
+  },
+  required: ['verdict', 'corrected', 'feedback', 'meaning'],
+  propertyOrdering: ['verdict', 'corrected', 'feedback', 'meaning']
+};
+
+let writeId = 0, constraintText = '';
+function pickConstraint(type) {
+  const set = WRITE_TASKS[type] || WRITE_TASKS.default;
+  return set[Math.floor(Math.random() * set.length)];
+}
+function newWriteTask() {
+  const arr = (curIdx && curIdx.length) ? curIdx : WORDS.map((_, i) => i);
+  writeId = arr[Math.floor(Math.random() * arr.length)];
+  constraintText = pickConstraint(WORDS[writeId].type);
+  const inp = document.getElementById('writeInput');
+  if (inp) inp.value = '';
+  const res = document.getElementById('writeResult');
+  if (res) res.innerHTML = '';
+  renderWriteTask();
+  updateWriteMeta();
+}
+function renderWriteTask() {
+  const el = document.getElementById('writeTask');
+  if (!el) return;
+  const w = WORDS[writeId];
+  const label = w.art ? `<span class="art">${w.art}</span> ${w.de}` : w.de;
+  el.innerHTML = `Write an English sentence using <b class="wt-word">${label}</b> <span class="gloss">— ${escapeHtml(w.en)}</span>.` +
+    `<div class="wt-do">🎯 Task: ${escapeHtml(constraintText)}</div>`;
+  const lv = document.getElementById('writeLevel');
+  if (lv) lv.textContent = curLevel;
+}
+function updateWriteMeta() {
+  const t = document.getElementById('writeModelTag');
+  if (t) t.textContent = (progress.sentencesDone || 0) + ' checked · ' + modelName();
+  const nk = document.getElementById('writeNoKey');
+  if (nk) nk.style.display = safeGet('dd_gkey') ? 'none' : 'block';
+}
+
+async function gradeSentence(payload) {
+  const key = safeGet('dd_gkey');
+  const model = modelName();
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`,
+    {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: WRITE_SYSTEM }] },
+        contents: [{ role: 'user', parts: [{ text: payload }] }],
+        generationConfig: {
+          maxOutputTokens: 2048,
+          responseMimeType: 'application/json',
+          responseSchema: WRITE_SCHEMA
+        }
+      })
+    }
+  );
+  if (!res.ok) {
+    const t = await res.text();
+    let msg; try { msg = JSON.parse(t).error?.message || t; } catch { msg = t; }
+    throw new Error((res.status === 400 || res.status === 403) ? 'API key problem — check Settings ⚙️.' : `Error ${res.status}: ${msg}`);
+  }
+  const data = await res.json();
+  const cand = (data.candidates || [])[0];
+  const txt = (cand && cand.content && cand.content.parts ? cand.content.parts.map(p => p.text || '').join('') : '');
+  if (!txt) throw new Error('Empty response from the model — try again.');
+  return JSON.parse(txt);
+}
+
+async function checkSentence() {
+  const txt = document.getElementById('writeInput').value.trim();
+  if (!txt) return;
+  if (!safeGet('dd_gkey')) { openSettings(); return; }
+  const w = WORDS[writeId];
+  const label = w.art ? `${w.art} ${w.de}` : w.de;
+  const resEl = document.getElementById('writeResult');
+  const btn = document.getElementById('writeCheck');
+  btn.disabled = true; btn.textContent = 'Checking…';
+  resEl.innerHTML = '<div class="wr-loading">Checking your sentence…</div>';
+  const payload =
+    `Target expression: ${label} (${w.en}), type: ${w.type}.\n` +
+    `Task the learner had to fulfil: "${constraintText}".\n` +
+    `The learner wrote: "${txt}"\n\n` +
+    `Evaluate correctness AND naturalness (native phrasing, collocation, register, prepositions), and whether the task was fulfilled using the target expression.`;
+  try {
+    const r = await gradeSentence(payload);
+    renderWriteResult(r);
+    recordActivity();
+    progress.sentencesDone = (progress.sentencesDone || 0) + 1;
+    save();
+    refreshAll();
+    if (r.verdict === 'correct') playCorrect(); else playWrong();
+  } catch (e) {
+    resEl.innerHTML = `<div class="wr verdict-wrong"><div class="wr-feedback">⚠️ ${escapeHtml(e.message || 'Could not check the sentence.')}</div></div>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Check';
+  }
+}
+function renderWriteResult(r) {
+  const map = {
+    correct: { c: 'correct', label: '✅ Correct!' },
+    minor:   { c: 'minor',   label: '🟡 Almost there' },
+    wrong:   { c: 'wrong',   label: '❌ Not quite' }
+  };
+  const m = map[r.verdict] || map.minor;
+  const resEl = document.getElementById('writeResult');
+  resEl.innerHTML =
+    `<div class="wr verdict-${m.c}">` +
+    `<div class="wr-head">${m.label}</div>` +
+    `<div class="wr-corrected">„${escapeHtml(r.corrected)}" <button class="speak-inline" id="wrSpeak" title="Hear it">🔊</button></div>` +
+    `<div class="wr-meaning">${escapeHtml(r.meaning)}</div>` +
+    `<div class="wr-feedback">${formatMd(r.feedback)}</div>` +
+    `</div>`;
+  const sp = document.getElementById('wrSpeak');
+  if (sp) {
+    if (!window.speechSynthesis) sp.style.display = 'none';
+    else sp.addEventListener('click', () => speak(r.corrected, sp));
+  }
+}
+
+document.getElementById('writeCheck').addEventListener('click', checkSentence);
+document.getElementById('writeNext').addEventListener('click', newWriteTask);
+document.getElementById('writeInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); checkSentence(); }
+});
+
+/* ============================ Init ============================ */
+function refreshAll() {
+  refreshGoal();
+  refreshProgress();
+  refreshChatMeta();
+  renderLevelBar();
+  updateWriteMeta();
+}
+checkStorage();
+if (DEFAULT_API_KEY && !safeGet('dd_gkey')) safeSet('dd_gkey', DEFAULT_API_KEY);  // bake-in (if provided)
+if (!safeGet('dd_gmodel')) safeSet('dd_gmodel', DEFAULT_MODEL);                           // default to cheapest model
+applyTheme(safeGet('dd_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+buildSuggestions();
+buildGrammar();
+renderQuizStart();
+reconcileLevels();
+setLevel(progress.level || 'Words', { speak: false });
+renderChat();
+refreshAll();
+</script>
+</body>
+</html>
